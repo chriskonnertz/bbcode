@@ -54,6 +54,12 @@ class BBCode {
       return "<a href=\"$match[1]\">$match[1]</a>"; 
     };
 
+    
+    // Replace [url=name]...[/url] with <a href="...">name</a>
+    $this->bbcode_table["/\[url=(.*)\](.*?)\[\/url\]/is"] = function ($match) {
+      return "<a href=\"$match[2]\">$match[1]</a>"; 
+    };
+    
 
     // Replace [list]...[/list] with <ul><li>...</li></ul>
     $this->bbcode_table["/\[list\](.*?)\[\/list\]/is"] = function ($match) {

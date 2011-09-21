@@ -15,6 +15,8 @@ $text=<<<EOF
 
 [url]http://www.google.com/[/url]
 
+[url=Google.com yo!]http://www.google.com/[/url]
+
 This is a list: 
 
 [list]
