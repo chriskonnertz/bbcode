@@ -61,6 +61,12 @@ class BBCode {
     };
     
 
+    // Replace [img]...[/img] with <img src="..."/>
+    $this->bbcode_table["/\[img\](.*?)\[\/img\]/is"] = function ($match) {
+      return "<img src=\"$match[1]\"/>"; 
+    };
+    
+    
     // Replace [list]...[/list] with <ul><li>...</li></ul>
     $this->bbcode_table["/\[list\](.*?)\[\/list\]/is"] = function ($match) {
       $match[1] = preg_replace_callback("/\[\*\]([^\[\*\]]*)/is", function ($submatch) {
