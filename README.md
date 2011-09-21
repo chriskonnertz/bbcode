@@ -1,6 +1,6 @@
 ## Instructions
 
-1. Include `bbcode.php` in your PHP file
+1. Include `bbcode.php`
 2. Instantiate the `BBCode` class
 3. Execute the `toHTML` method on a string which contains BBCode
 4. Enjoy HTML output
