@@ -1,12 +1,11 @@
-# Instructions
+## Instructions
 
-1. Download the file
-2. Include it in your PHP file
-3. Instantiate the BBCode class
-4. Execute the toHTML method on your string containing bbcode
-5. Enjoy HTML output
+1. Include `bbcode.php` in your PHP file
+2. Instantiate the `BBCode` class
+3. Execute the `toHTML` method on a string which contains BBCode
+4. Enjoy HTML output
 
-# Example Code
+## Example Code
 
 ```php
 <?php
@@ -45,7 +44,7 @@ echo $bbcode->toHTML($text);
 ?>
 ```
 
-# Example Output
+## Example Output
 
 ```html
 <strong>This is bold text</strong>
