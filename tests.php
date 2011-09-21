@@ -30,5 +30,6 @@ This is a list:
 
 EOF;
 
-echo BBCode::toHTML($text);  
+$bbcode = new BBCode;
+echo $bbcode->toHTML($text);  
 ?>
