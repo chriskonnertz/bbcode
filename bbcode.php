@@ -77,9 +77,9 @@ class BBCode {
     };
 
 
-    // Replace [youtube]...[/youtube] with <iframe>...</iframe>
+    // Replace [youtube]...[/youtube] with <iframe src="..."></iframe>
     $this->bbcode_table["/\[youtube\](?:http?:\/\/)?(?:www\.)?youtu(?:\.be\/|be\.com\/watch\?v=)([A-Z0-9\-_]+)(?:&(.*?))?\[\/youtube\]/i"] = function ($match) {
-      return "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/$match[1]?origin=wellplayed.org\" frameborder=\"0\"></iframe>";
+      return "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/$match[1]\" frameborder=\"0\"></iframe>";
     };
   }
   

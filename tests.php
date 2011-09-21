@@ -29,7 +29,7 @@ This is a list:
 
 [youtube]http://youtu.be/DabwEqsWWiA&hd=1[/youtube]
 
-[youtube]http://www.youtube.com/watch?v=DabwEqsWWiA&hd=1[/youtube]
+[youtube]http://www.youtube.com/watch?v=DabwEqsWWiA[/youtube]
 
 
 EOF;

@@ -39,7 +39,7 @@ This is a list:
 
 [youtube]http://youtu.be/DabwEqsWWiA&hd=1[/youtube]
 
-[youtube]http://www.youtube.com/watch?v=DabwEqsWWiA&hd=1[/youtube]
+[youtube]http://www.youtube.com/watch?v=DabwEqsWWiA[/youtube]
 
 
 EOF;
@@ -69,8 +69,8 @@ This is a list:
 <ul><li>list item #1</li><li>list item #2</li><li><strong>list item #3</strong></li></ul>
 
 <iframe class="youtube-player" type="text/html" width="640" height="385"
-src="http://www.youtube.com/embed/DabwEqsWWiA?origin=wellplayed.org" frameborder="0"></iframe>
+src="http://www.youtube.com/embed/DabwEqsWWiA" frameborder="0"></iframe>
 
 <iframe class="youtube-player" type="text/html" width="640" height="385"
-src="http://www.youtube.com/embed/DabwEqsWWiA?origin=wellplayed.org" frameborder="0"></iframe>
+src="http://www.youtube.com/embed/DabwEqsWWiA" frameborder="0"></iframe>
 ```
