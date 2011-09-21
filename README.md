@@ -25,6 +25,10 @@ $text=<<<EOF
 
 [url]http://www.google.com/[/url]
 
+[url=Google.com yo!]http://www.google.com/[/url]
+
+[img]http://i.imgur.com/WqYEO.jpg[/img]
+
 This is a list: 
 
 [list]
@@ -36,6 +40,7 @@ This is a list:
 [youtube]http://youtu.be/DabwEqsWWiA&hd=1[/youtube]
 
 [youtube]http://www.youtube.com/watch?v=DabwEqsWWiA&hd=1[/youtube]
+
 
 EOF;
 
