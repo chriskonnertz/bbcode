@@ -64,6 +64,10 @@ echo $bbcode->toHTML($text);
 
 <a href="http://www.google.com/">http://www.google.com/</a>
 
+<a href="http://www.google.com/">Google.com yo!</a>
+
+<img src="http://i.imgur.com/WqYEO.jpg"/>
+
 This is a list: 
 
 <ul><li>list item #1</li><li>list item #2</li><li><strong>list item #3</strong></li></ul>
