@@ -2,7 +2,7 @@
 
 1. Include `bbcode.php`
 2. Instantiate the `BBCode` class
-3. Execute the `toHTML` method on a string which contains BBCode
+3. Execute the `toHTML` method on a string which contains BBCode (optionally pass `true` as the second argument to escape special html chars first)
 4. Enjoy HTML output
 
 ## Example Code
