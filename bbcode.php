@@ -45,13 +45,13 @@ class BBCode {
 
     // Replace [u]...[/u] with <span style="text-decoration:underline;">...</span>
     $this->bbcode_table["/\[u\](.*?)\[\/u\]/is"] = function ($match) {
-      return "<span style="text-decoration:underline;">$match[1]</span>";
+      return '<span style="text-decoration:underline;">' . $match[1] . '</span>';
     };
 
     
     // Replace [center]...[/center] with <div style="text-align:center;">...</div>
     $this->bbcode_table["/\[center\](.*?)\[\/center\]/is"] = function ($match) {
-      return "<div style="text-align:center;">$match[1]</div>";
+      return '<div style="text-align:center;">' . $match[1] . '</div>';
     };
 
 
