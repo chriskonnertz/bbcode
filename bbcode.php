@@ -95,11 +95,15 @@ class BBCode {
     };
   }
   
-  public function toHTML ($str) {
+  public function toHTML ($str, $escapeHTML=false) {
     if (!$str) { 
       return "";
     }
     
+    if ($escapeHTML) {
+      $str = htmlspecialchars($str);
+    }
+
     foreach($this->bbcode_table as $key => $val) {
       $str = preg_replace_callback($key, $val, $str);
     }
