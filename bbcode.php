@@ -48,6 +48,12 @@ class BBCode {
       return "<span style="text-decoration:underline;">$match[1]</span>";
     };
 
+    
+    // Replace [center]...[/center] with <div style="text-align:center;">...</div>
+    $this->bbcode_table["/\[center\](.*?)\[\/center\]/is"] = function ($match) {
+      return "<div style="text-align:center;">$match[1]</div>";
+    };
+
 
     // Replace [color=somecolor]...[/color] with <span style="color:somecolor">...</span>
     $this->bbcode_table["/\[color=([#a-z0-9]+)\](.*?)\[\/color\]/is"] = function ($match) {
