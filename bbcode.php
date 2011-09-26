@@ -38,7 +38,7 @@ class BBCode {
 
 
     // Replace [s] with <del>
-    $this->bbcode_table["/\[s](.*?)\[\/s\]/is"] = function ($match) {
+    $this->bbcode_table["/\[s\](.*?)\[\/s\]/is"] = function ($match) {
       return "<del>$match[1]</del>";
     };
 
