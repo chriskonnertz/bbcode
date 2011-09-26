@@ -67,7 +67,7 @@ class BBCode {
     };
 
     
-    // Replace [url=name]...[/url] with <a href="...">name</a>
+    // Replace [url=http://www.google.com/]A link to google[/url] with <a href="http://www.google.com/">A link to google</a>
     $this->bbcode_table["/\[url=(.*?)\](.*?)\[\/url\]/is"] = function ($match) {
       return "<a href=\"$match[1]\">$match[2]</a>"; 
     };
