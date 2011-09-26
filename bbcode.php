@@ -43,6 +43,12 @@ class BBCode {
     };
 
 
+    // Replace [u]...[/u] with <span style="text-decoration:underline;">...</span>
+    $this->bbcode_table["/\[u\](.*?)\[\/u\]/is"] = function ($match) {
+      return "<span style="text-decoration:underline;">$match[1]</span>";
+    };
+
+
     // Replace [color=somecolor]...[/color] with <span style="color:somecolor">...</span>
     $this->bbcode_table["/\[color=([#a-z0-9]+)\](.*?)\[\/color\]/is"] = function ($match) {
       return '<span style="color:'. $match[1] . ';">' . $match[2] . '</span>';
