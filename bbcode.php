@@ -25,9 +25,9 @@ class BBCode {
     };
 
 
-    // Replace [code] with <pre>
+    // Replace [code]...[/code] with <pre><code>...</code></pre>
     $this->bbcode_table["/\[code\](.*?)\[\/code\]/is"] = function ($match) {
-      return "<pre>$match[1]<pre>";  
+      return "<pre><code>$match[1]</code><pre>";  
     };
 
 
