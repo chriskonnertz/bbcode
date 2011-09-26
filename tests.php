@@ -11,20 +11,30 @@ $text=<<<EOF
 
 [quote]This is a quote[/quote]
 
+[s]This text has a strikethrough[/s]
+
+[u]This text is underlined.[/u]
+
+[center]This text is centered[/center]
+
 [color=red]This is red text[/color]
 
 [url]http://www.google.com/[/url]
 
-[url=Google.com yo!]http://www.google.com/[/url]
+[url=http://www.google.com/]Google.com yo![/url]
 
 [img]http://i.imgur.com/WqYEO.jpg[/img]
+
+An image as a link:
+
+[url=http://en.wikipedia.org/wiki/Ninja][img]http://i.imgur.com/8d7Yu.jpg[/img][/url]
 
 This is a list: 
 
 [list]
 [*]list item #1
 [*]list item #2
-[*][b]list item #3[/b]
+[*][b]bold list item #3[/b]
 [/list]
 
 [youtube]http://youtu.be/DabwEqsWWiA&hd=1[/youtube]
