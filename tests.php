@@ -23,6 +23,10 @@ $text=<<<EOF
 
 [color=red]This is red text[/color]
 
+[email]someone@somewhere.com[/email]
+
+[email=someone@somewhere.com]An e-mail link[/email]
+
 [url]http://www.google.com/[/url]
 
 [url=http://www.google.com/]Google.com yo![/url]

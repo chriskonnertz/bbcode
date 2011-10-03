@@ -73,6 +73,18 @@ class BBCode {
     };
 
 
+    // Replace [email]...[/email] with <a href="mailto:...">...</a>
+    $this->bbcode_table["/\[email\](.*?)\[\/email\]/is"] = function ($match) {
+      return "<a href=\"mailto:$match[1]\">$match[1]</a>"; 
+    };
+
+
+    // Replace [email=someone@somewhere.com]An e-mail link[/email] with <a href="mailto:someone@somewhere.com">An e-mail link</a>
+    $this->bbcode_table["/\[email=(.*?)\](.*?)\[\/email\]/is"] = function ($match) {
+      return "<a href=\"mailto:$match[1]\">$match[2]</a>"; 
+    };
+
+
     // Replace [url]...[/url] with <a href="...">...</a>
     $this->bbcode_table["/\[url\](.*?)\[\/url\]/is"] = function ($match) {
       return "<a href=\"$match[1]\">$match[1]</a>"; 
