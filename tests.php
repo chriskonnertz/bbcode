@@ -37,9 +37,25 @@ An image as a link:
 
 [url=http://en.wikipedia.org/wiki/Ninja][img]http://i.imgur.com/8d7Yu.jpg[/img][/url]
 
-This is a list: 
+This is an unordered list: 
 
 [list]
+[*]list item #1
+[*]list item #2
+[*][b]bold list item #3[/b]
+[/list]
+
+This is an ordered (numbered) list: 
+
+[list=1]
+[*]list item #1
+[*]list item #2
+[*][b]bold list item #3[/b]
+[/list]
+
+This is an ordered (alpha) list: 
+
+[list=a]
 [*]list item #1
 [*]list item #2
 [*][b]bold list item #3[/b]

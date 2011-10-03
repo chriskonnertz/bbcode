@@ -113,6 +113,24 @@ class BBCode {
     };
 
 
+    // Replace [list=1|a]...[/list] with <ul|ol><li>...</li></ul|ol>
+    $this->bbcode_table["/\[list=(1|a)\](.*?)\[\/list\]/is"] = function ($match) {
+      if ($match[1] == '1') {
+        $list_type = '<ol>';
+      } else if ($match[1] == 'a') {
+        $list_type = '<ol style="list-style-type: lower-alpha">';
+      } else {
+        $list_type = '<ol>';
+      }
+
+      $match[2] = preg_replace_callback("/\[\*\]([^\[\*\]]*)/is", function ($submatch) {
+        return "<li>" . preg_replace("/[\n\r?]$/", "", $submatch[1]) . "</li>";
+      }, $match[2]);
+
+      return $list_type . preg_replace("/[\n\r?]/", "", $match[2]) . "</ol>";
+    };
+
+
     // Replace [youtube]...[/youtube] with <iframe src="..."></iframe>
     $this->bbcode_table["/\[youtube\](?:http?:\/\/)?(?:www\.)?youtu(?:\.be\/|be\.com\/watch\?v=)([A-Z0-9\-_]+)(?:&(.*?))?\[\/youtube\]/i"] = function ($match) {
       return "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/$match[1]\" frameborder=\"0\"></iframe>";
