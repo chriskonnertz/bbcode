@@ -42,6 +42,12 @@ class BBCode {
       return "$match[1] said: <blockquote><p>$match[2]</p></blockquote>";
     };
 
+    
+    // Replace [size=30]...[/size] with <span style="font-size:30%">...</span>
+    $this->bbcode_table["/\[size=(\d+)\](.*?)\[\/size\]/is"] = function ($match) {
+      return "<span style=\"font-size:$match[1]%\">$match[2]</span>";
+    };
+
 
     // Replace [s] with <del>
     $this->bbcode_table["/\[s\](.*?)\[\/s\]/is"] = function ($match) {

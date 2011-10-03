@@ -13,6 +13,8 @@ $text=<<<EOF
 
 [quote="Obama"]This is a quote by a specific person[/quote]
 
+[size=30]This text's size is set at 30%[/size]
+
 [s]This text has a strikethrough[/s]
 
 [u]This text is underlined.[/u]
