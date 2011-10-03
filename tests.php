@@ -11,6 +11,8 @@ $text=<<<EOF
 
 [quote]This is a quote[/quote]
 
+[quote="Obama"]This is a quote by a specific person[/quote]
+
 [s]This text has a strikethrough[/s]
 
 [u]This text is underlined.[/u]

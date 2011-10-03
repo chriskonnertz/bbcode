@@ -37,6 +37,12 @@ class BBCode {
     };
 
 
+    // Replace [quote="person"]...[/quote] with <blockquote><p>...</p></blockquote>
+    $this->bbcode_table["/\[quote=\"([^\"]+)\"\](.*?)\[\/quote\]/is"] = function ($match) {
+      return "$match[1] said: <blockquote><p>$match[2]</p></blockquote>";
+    };
+
+
     // Replace [s] with <del>
     $this->bbcode_table["/\[s\](.*?)\[\/s\]/is"] = function ($match) {
       return "<del>$match[1]</del>";
