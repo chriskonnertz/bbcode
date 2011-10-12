@@ -137,7 +137,7 @@ class BBCode {
     };
   }
   
-  public function toHTML ($str, $escapeHTML=false) {
+  public function toHTML ($str, $escapeHTML=false, $nr2br=false) {
     if (!$str) { 
       return "";
     }
@@ -148,6 +148,10 @@ class BBCode {
 
     foreach($this->bbcode_table as $key => $val) {
       $str = preg_replace_callback($key, $val, $str);
+    }
+
+    if ($nr2br) {
+      $str = preg_replace_callback("/\n\r?/", function ($match) { return "<br/>"; }, $str);
     }
     
     return $str;
