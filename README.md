@@ -1,15 +1,14 @@
 ## Instructions
 
-1. Include `bbcode.php`
+1. Include the BBCode class via Composer
 2. Instantiate the `BBCode` class
-3. Execute the `toHTML` method on a string which contains BBCode (optionally pass `true` as the second argument to escape special html chars first)
+3. Execute the `render` method on a string which contains BBCode (optionally pass `true` as the second argument to escape special HTML chars first)
 4. Enjoy HTML output
 
 ## Example Code
 
 ```php
 <?php
-require "bbcode.php";
 
 $text=<<<EOF
 
@@ -78,8 +77,8 @@ This is an ordered (alpha) list:
 
 EOF;
 
-$bbcode = new BBCode;
-echo $bbcode->toHTML($text);  
+$bbcode = new ChrisKonnertz\BBCode\BBCode;
+echo $bbcode->render($text);  
 ?>
 ```
 
