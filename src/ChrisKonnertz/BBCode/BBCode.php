@@ -1,160 +1,381 @@
 <?php namespace ChrisKonnertz\BBCode;
 
-/**
+/*
  * BBCode to HTML converter
  *
- * Originally created by Kai Mallea (kmallea@gmail.com)
+ * Inspired by Kai Mallea (kmallea@gmail.com)
  *
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Licensed under the MIT license: 
+ * http://www.opensource.org/licenses/mit-license.php
  */
+
+use ChrisKonnertz\BBCode\Tag;
 
 class BBCode {
 
     /**
-    * Array of replacement functions
-    * @var array
-    */
-    protected $replacements = array();
+     * The text with BBCodes
+     * @var string
+     */
+    protected $text = null;
 
     /**
      * The constructor creates functions for all replacements.
      */
-    public function __construct () 
+    public function __construct($text = null) 
     {
-
-        // Replace [b]...[/b] with <strong>...</strong>
-        $this->replacements["/\[b\](.*?)\[\/b\]/is"] = function ($match) {
-            return "<strong>$match[1]</strong>";
-        };
-
-        // Replace [i]...[/i] with <em>...</em>
-        $this->replacements["/\[i\](.*?)\[\/i\]/is"] = function ($match) {
-            return "<em>$match[1]</em>";
-        };
-
-        // Replace [code]...[/code] with <pre><code>...</code></pre>
-        $this->replacements["/\[code\](.*?)\[\/code\]/is"] = function ($match) {
-            return "<pre><code>$match[1]</code></pre>";  
-        };
-
-        // Replace [quote]...[/quote] with <blockquote><p>...</p></blockquote>
-        $this->replacements["/\[quote\](.*?)\[\/quote\]/is"] = function ($match) {
-            return "<blockquote><p>$match[1]</p></blockquote>";
-        };
-
-        // Replace [quote="person"]...[/quote] with <blockquote><p>...</p></blockquote>
-        $this->replacements["/\[quote=\"([^\"]+)\"\](.*?)\[\/quote\]/is"] = function ($match) {
-            return "$match[1] wrote: <blockquote><p>$match[2]</p></blockquote>";
-        };
-
-        // Replace [size=30]...[/size] with <span style="font-size:30%">...</span>
-        $this->replacements["/\[size=(\d+)\](.*?)\[\/size\]/is"] = function ($match) {
-            return "<span style=\"font-size:$match[1]%\">$match[2]</span>";
-        };
-
-        // Replace [s] with <del>
-        $this->replacements["/\[s\](.*?)\[\/s\]/is"] = function ($match) {
-            return "<del>$match[1]</del>";
-        };
-
-        // Replace [u]...[/u] with <span style="text-decoration:underline;">...</span>
-        $this->replacements["/\[u\](.*?)\[\/u\]/is"] = function ($match) {
-            return '<span style="text-decoration:underline;">'.$match[1].'</span>';
-        };
-
-        // Replace [center]...[/center] with <div style="text-align:center;">...</div>
-        $this->replacements["/\[center\](.*?)\[\/center\]/is"] = function ($match) {
-            return '<div style="text-align:center;">'.$match[1].'</div>';
-        };
-
-        // Replace [color=somecolor]...[/color] with <span style="color:somecolor">...</span>
-        $this->replacements["/\[color=([#a-z0-9]+)\](.*?)\[\/color\]/is"] = function ($match) {
-            return '<span style="color:'.$match[1].';">'.$match[2].'</span>';
-        };
-
-        // Replace [email]...[/email] with <a href="mailto:...">...</a>
-        $this->replacements["/\[email\](.*?)\[\/email\]/is"] = function ($match) {
-            return "<a href=\"mailto:$match[1]\">$match[1]</a>"; 
-        };
-
-        // Replace [email=someone@somewhere.com]An e-mail link[/email] with <a href="mailto:someone@somewhere.com">An e-mail link</a>
-        $this->replacements["/\[email=(.*?)\](.*?)\[\/email\]/is"] = function ($match) {
-            return "<a href=\"mailto:$match[1]\">$match[2]</a>"; 
-        };
-
-        // Replace [url]...[/url] with <a href="...">...</a>
-        $this->replacements["/\[url\](.*?)\[\/url\]/is"] = function ($match) {
-            return "<a href=\"$match[1]\">$match[1]</a>"; 
-        };
-
-        // Replace [url=http://www.google.com/]A link to google[/url] with <a href="http://www.google.com/">A link to google</a>
-        $this->replacements["/\[url=(.*?)\](.*?)\[\/url\]/is"] = function ($match) {
-            return "<a href=\"$match[1]\">$match[2]</a>"; 
-        };
-
-        // Replace [img]...[/img] with <img src="..."/>
-        $this->replacements["/\[img\](.*?)\[\/img\]/is"] = function ($match) {
-            return "<img src=\"$match[1]\"/>"; 
-        };
-
-        // Replace [list]...[/list] with <ul><li>...</li></ul>
-        $this->replacements["/\[list\](.*?)\[\/list\]/is"] = function ($match) {
-            $match[1] = preg_replace_callback("/\[\*\]([^\[\*\]]*)/is", function ($submatch) {
-                return '<li>'.preg_replace("/[\n\r?]$/", "", $submatch[1]).'</li>';
-            }, $match[1]);
-
-            return '<ul>'.preg_replace("/[\n\r?]/", "", $match[1]) .'</ul>';
-        };
-
-        // Replace [list=1|a]...[/list] with <ul|ol><li>...</li></ul|ol>
-        $this->replacements["/\[list=(1|a)\](.*?)\[\/list\]/is"] = function ($match) {
-            if ($match[1] == '1') {
-                $list_type = '<ol>';
-            } elseif ($match[1] == 'a') {
-                $list_type = '<ol style="list-style-type: lower-alpha">';
-            } else {
-                $list_type = '<ol>';
-            }
-
-            $match[2] = preg_replace_callback("/\[\*\]([^\[\*\]]*)/is", function ($submatch) {
-                return '<li>'.preg_replace("/[\n\r?]$/", '', $submatch[1]).'</li>';
-            }, $match[2]);
-
-            return $list_type.preg_replace("/[\n\r?]/", '', $match[2]).'</ol>';
-        };
-
-        // Replace [youtube]...[/youtube] with <iframe src="..."></iframe>
-        $this->replacements["/\[youtube\](?:http?:\/\/)?(?:www\.)?youtu(?:\.be\/|be\.com\/watch\?v=)([A-Z0-9\-_]+)(?:&(.*?))?\[\/youtube\]/i"] = function ($match) {
-          return "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/$match[1]\" frameborder=\"0\"></iframe>";
-        };
+        $this->text = $text;
     }
 
     /**
      * Renders BBCode to HMTL
      * 
-     * @param  string  $str     The BBCode string
-     * @param  boolean $escape  Escape HTML code?
-     * @param  boolean $nr2br   Replace line breaks with br?
+     * @param  string  $text    The BBCode string
+     * @param  bool    $escape  Escape HTML entities? (Only "<" and ">"!)
      * @return string
      */
-    public function render($str, $escape = false, $nr2br = false) 
+    public function render($text = null, $escape = true) 
     {
-        if (! $str) { 
-            return '';
+        if ($this->text !== null and $text === null) {
+            $text = $this->text;
+        }
+        
+        $html   = '';
+        $len    = strlen($text);
+        $inTag  = false;            // True if current position is inside a tag
+        $inName = false;            // True if current pos is inside a tag name
+        $inStr  = false;            // True if current pos is inside a string
+        $tag    = null;
+        $tags   = array();
+
+        /*
+         * Loop over each character of the text
+         */
+        for ($i = 0; $i < $len; $i++) {
+            $char = $text[$i];
+
+            if (! $escape or ($char != '<' and $char != '>')) {
+                /*
+                 * $inTag == true means the curren position is inside a tag
+                 * (= inside the brackets)
+                 */
+                if ($inTag) {
+                    if ($char == '"') {
+                        if ($inStr) {
+                            $inStr = false;
+                        } else {
+                            if ($inName) {
+                                $tag->valid = false;
+                            } else {
+                                $inStr = true;
+                            }
+                        }
+                    } else {
+                        /*
+                         * This closes a tag
+                         */
+                        if ($char == ']' and ! $inStr) {
+                            $inTag  = false;
+                            $inName = false;
+
+                            if ($tag->valid) {
+                                $code = null;
+                                if ($tag->opening) {
+                                    $code = $this->generateTag($tag, $html);
+                                } else {
+                                    $openingTag = $this->popTag($tags, $tag);
+                                    if ($openingTag) {
+                                        $code = $this->generateTag($tag, $html, $openingTag);
+                                    }
+                                }                       
+
+                                if ($code !== null and $tag->opening) { 
+                                    $tags[$tag->name][] = $tag;
+                                }
+                                $html .= $code;
+                            }
+                            continue;
+                        }
+
+                        if ($inName and ! $inStr) {
+                            /*
+                             * This makes the current tag a closing tag
+                             */
+                            if ($char == '/') {
+                                if ($tag->name) {
+                                    $tag->valid = false;
+                                } else {
+                                    $tag->opening = false;
+                                }
+                            } else {
+                                /*
+                                 * This means a property starts
+                                 */
+                                if ($char == '=') {
+                                    if ($tag->name) {
+                                        $inName = false;
+                                    } else {
+                                        $tag->valid = false;
+                                    }
+                                } else {
+                                    $tag->name .= strtolower($char);    
+                                }
+                            }
+                        } else { // If we are not inside the name we are inside a property
+                            $tag->property .= $char;
+                        }
+                    } 
+                } else {
+                    /*
+                     * This opens a tag
+                     */
+                    if ($char == '[') {
+                        $inTag          = true;
+                        $inName         = true;
+                        $tag            = new Tag();
+                        $tag->position  = strlen($html);
+                    } else {
+                        $html .= $char;
+                    }
+                }
+            } else {
+                $html .= htmlspecialchars($char);
+            }
         }
 
-        if ($escape) {
-            $str = htmlspecialchars($str);
+        /*
+         * Check for tags that are not closed and close them.
+         */
+        foreach ($tags as $name => $tagsCollection) {
+            $closingTag = new Tag($name, false);
+            foreach ($tagsCollection as $tag) {
+                $html .= $this->generateTag($closingTag, $html, $tag);
+            }
         }
 
-        foreach ($this->replacements as $key => $val) {
-            $str = preg_replace_callback($key, $val, $str);
+        return $html;
+    }
+
+    /**
+     * Generate the HTML code of the current tag
+     * 
+     * @param  Tag      $tag        The tag
+     * @param  Tag      $openingTag The opening tag that is linked to the tag (or null)
+     * @return string
+     */
+    protected function generateTag(Tag $tag, &$html, Tag $openingTag = null)
+    {
+        $code = null;
+
+        switch ($tag->name) {
+            case 'b':
+                if ($tag->opening) {
+                    $code = '<strong>';
+                } else {
+                    $code = '</strong>';
+                }
+                break;
+            case 'i':
+                if ($tag->opening) {
+                    $code = '<em>';
+                } else {
+                    $code = '</em>';
+                }
+                break;
+            case 's':
+                if ($tag->opening) {
+                    $code = '<del>';
+                } else {
+                    $code = '</del>';
+                }
+                break;
+            case 'u':
+                if ($tag->opening) {
+                    $code = '<span style="text-decoration: underline">';
+                } else {
+                    $code = '</span>';
+                }
+                break;
+            case 'code':
+                if ($tag->opening) {
+                    $code = '<pre><code>';
+                } else {
+                    $code = '</pre></code>';
+                }
+                break;
+            case 'email':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<a href="mailto:'.$tag->property.'">';
+                    } else {
+                        $code = '<a href="mailto:';
+                    }
+                } else {
+                    if ($openingTag->property) {
+                        $code = '</a>';
+                    } else {
+                        $code .= '">'.substr($html, $openingTag->position + 16).'</a>';
+                    }
+                }
+                break;
+            case 'url':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<a href="'.$tag->property.'">';
+                    } else {
+                        $code = '<a href="';
+                    }
+                } else {
+                    if ($openingTag->property) {
+                        $code = '</a>';
+                    } else {
+                        $partial = substr($html, $openingTag->position + 9);
+                        $html = substr($html, 0, $openingTag->position + 9)
+                            .strip_tags($partial).'">'.$partial.'</a>';
+                    }
+                }
+                break;
+            case 'img':
+                if ($tag->opening) {
+                    $code = '<img src="';
+                } else {
+                    $code = '" />';
+                }
+                break;
+            case 'list':
+                if ($tag->opening) {
+                    $listType = '<ul>';
+
+                    if ($tag->property) {
+                        $listType = '<ol>';
+                        if ($tag->property == 'a') {
+                            $listType = '<ol style="list-style-type: lower-alpha">';
+                        }
+                    }
+
+                    $code = $listType;
+                } else {
+                    if ($this->endsWith($html, '<ul>')) {
+                        $code = '</ul>';
+                    } elseif ($this->endsWith($html, '<ol>')) {
+                        $code = '</ol>';
+                    } elseif ($this->endsWith($html, '<ol style="list-style-type: lower-alpha">')) {
+                        $code = '</ol>';
+                    } elseif ($this->endsWith($html, '</li>') and $openingTag->property) {
+                        $code = '</ol>';
+                    } elseif ($this->endsWith($html, '</li>') and ! $openingTag->property) {
+                        $code = '</ul>';
+                    } elseif ($openingTag->property) {
+                        $code = '</li></ol>';
+                    } else {
+                        $code = '</li></ul>';
+                    }
+                }
+                break;
+            case '*':
+                if ($tag->opening) {
+                    $tag->opening = false;
+                    if ($this->endsWith($html, '<ul>')) {
+                        $code = '<li>';
+                    } else {
+                        $code = '</li><li>';
+                    }
+                }
+                break;
+            case 'li':
+                if ($tag->opening) {
+                    $code = '<li>';
+                } else {
+                    $code = '</li>';
+                }
+                break;
+            case 'quote':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<blockquote><span class="author">'.$tag->property.':</span><br/>';
+                    } else {
+                        $code = '<blockquote>';
+                    }
+                } else {
+                    $code = '</blockquote>';
+                }
+                break;
+            case 'youtube':
+                if ($tag->opening) {
+                    $code = '<iframe class="youtube-player" type="text/html" width="640"\
+                        height="385" src="http://www.youtube.com/embed/';
+                } else {
+                    $code = '" frameborder="0"></iframe>';
+                }
+                break;
+            case 'font':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<span style="font-family: '.$tag->property.'">';
+                    }
+                } else {
+                    $code = '</span>';
+                }
+                break;
+            case 'size':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<span style="font-size: '.$tag->property.'%">';
+                    }
+                } else {
+                    $code = '</span>';
+                }
+                break;
+            case 'color':
+                if ($tag->opening) {
+                    if ($tag->property) {
+                        $code = '<span style="color: '.$tag->property.'">';
+                    }
+                } else {
+                    $code = '</span>';
+                }
+                break;
+            case 'center':
+                if ($tag->opening) {
+                    $code = '<div style="text-align: center">';
+                } else {
+                    $code = '</div>';
+                }
+                break;
         }
 
-        if ($nr2br) {
-            $str = preg_replace_callback("/\n\r?/", function ($match) { return '<br/>'; }, $str);
-        }
+        return $code;
+    }
 
-        return $str;
+    /**
+     * Returns the last tag of a given type and removes it from the array.
+     * 
+     * @param  array    $tags Array of tags
+     * @param  Tag      $tag  Return the last tag of the type of this tag
+     * @return Tag
+     */
+    protected function popTag(array &$tags, $tag)
+    {
+        if (! isset($tags[$tag->name])) return null;
+
+        $size = sizeof($tags[$tag->name]);
+
+        if ($size == 0) {
+            return null;
+        } else {
+            return array_pop($tags[$tag->name]);
+        }
+    }
+
+    /**
+     * Returns true if $haystack ends with $needle
+     * 
+     * @param  string $haystack
+     * @param  string $needle
+     * @return bool
+     */
+    protected function endsWith($haystack, $needle)
+    {
+        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
     }
 }

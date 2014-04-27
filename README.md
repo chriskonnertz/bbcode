@@ -70,15 +70,12 @@ This is an ordered (alpha) list:
 [*][b]bold list item #3[/b]
 [/list]
 
-[youtube]http://youtu.be/DabwEqsWWiA&hd=1[/youtube]
-
-[youtube]http://www.youtube.com/watch?v=DabwEqsWWiA[/youtube]
-
+[youtube]DabwEqsWWiA&hd[/youtube]
 
 EOF;
 
 $bbcode = new ChrisKonnertz\BBCode\BBCode;
-echo $bbcode->render($text);  
+echo $bbcode->render('Hello [b]World[/b]!');  
 ?>
 ```
 
@@ -131,8 +128,6 @@ This is an ordered (numbered) list:
 This is an ordered (alpha) list: 
 
 <ol style="list-style-type: lower-alpha"><li>list item #1</li><li>list item #2</li><li><strong>bold list item #3</strong></li></ol>
-
-<iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/DabwEqsWWiA" frameborder="0"></iframe>
 
 <iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/DabwEqsWWiA" frameborder="0"></iframe>
 ```
