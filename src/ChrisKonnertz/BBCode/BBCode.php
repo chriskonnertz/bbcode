@@ -10,6 +10,7 @@
  */
 
 use ChrisKonnertz\BBCode\Tag;
+use Closure;
 
 class BBCode {
 
@@ -20,11 +21,32 @@ class BBCode {
     protected $text = null;
 
     /**
+     * Array with custom tag Closures
+     * @var array
+     */
+    protected $customTagClosures = array();
+
+    /**
      * The constructor creates functions for all replacements.
      */
     public function __construct($text = null) 
     {
         $this->text = $text;
+    }
+
+    /**
+     * Renders only the text without any tags
+     * 
+     * @param  string  $text    The BBCode string
+     * @return string
+     */
+    public function renderRaw($text = null)
+    {
+        if ($this->text !== null and $text === null) {
+            $text = $this->text;
+        }
+        
+        return preg_replace("/\[(.*?)\]/is", '', $text);
     }
 
     /**
@@ -56,7 +78,7 @@ class BBCode {
 
             if (! $escape or ($char != '<' and $char != '>')) {
                 /*
-                 * $inTag == true means the curren position is inside a tag
+                 * $inTag == true means the current position is inside a tag
                  * (= inside the brackets)
                  */
                 if ($inTag) {
@@ -81,7 +103,7 @@ class BBCode {
                             if ($tag->valid) {
                                 $code = null;
                                 if ($tag->opening) {
-                                    $code = $this->generateTag($tag, $html);
+                                    $code = $this->generateTag($tag, $html);    
                                 } else {
                                     $openingTag = $this->popTag($tags, $tag);
                                     if ($openingTag) {
@@ -342,6 +364,13 @@ class BBCode {
                     $code = '</div>';
                 }
                 break;
+            default:
+                // Custom tags:
+                foreach ($this->customTagClosures as $name => $closure) {
+                    if ($tag->name == $name) {
+                        $code .= $closure($tag, $html, $openingTag);
+                    }
+                }
         }
 
         return $code;
@@ -364,6 +393,38 @@ class BBCode {
             return null;
         } else {
             return array_pop($tags[$tag->name]);
+        }
+    }
+
+    /**
+     * Adds a custom tag (with name and a Closure)
+     * Example:
+     * $bbcode->addTag('example', function($tag, &$html, $openingTag) {
+     *     if ($tag->opening) {
+     *         return '<span class="example">';
+     *     } else {
+     *         return '</span>';
+     *     }
+     * });
+     * 
+     * @param string  $name    The name of the tag
+     * @param Closure $closure The Closure handling the tag
+     */
+    public function addTag($name, Closure $closure)
+    {
+        $this->customTagClosures[$name] = $closure;
+    }
+
+    /**
+     * Remove the tag with the given name
+     * 
+     * @param  string  $name
+     * @return void
+     */
+    public function forgetTag($name)
+    {
+        if (isset($this->customTagClosures[$name])) {
+            unset($this->customTagClosures[$name]);
         }
     }
 
