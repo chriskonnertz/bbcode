@@ -457,11 +457,23 @@ class BBCode {
         unset($this->customTagClosures[$name]);
     }
 
+    /**
+     * Add a tag to the array of ignored tags
+     * 
+     * @param  string $name The name of the tag
+     * @return void
+     */
     public function ignoreTag($name)
     {
         $this->ignoredTags[$name] = true;
     }
 
+    /**
+     * Remove a tag from the arrax of ignored tags
+     * 
+     * @param  string $name The name of the tag
+     * @return void
+     */
     public function permitTag($name)
     {
         unset($this->ignoredTags[$name]);
