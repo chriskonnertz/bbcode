@@ -27,6 +27,12 @@ class BBCode {
     protected $customTagClosures = array();
 
     /**
+     * Array of (name of) tags that are ignored
+     * @var array
+     */
+    protected $ignoredTags = array('spoiler' => true);
+
+    /**
      * The constructor creates functions for all replacements.
      */
     public function __construct($text = null) 
@@ -188,6 +194,10 @@ class BBCode {
     protected function generateTag(Tag $tag, &$html, Tag $openingTag = null)
     {
         $code = null;
+
+        if (isset($this->ignoredTags[$tag->name])) {
+            return $code;
+        }
 
         switch ($tag->name) {
             case 'b':
@@ -357,9 +367,30 @@ class BBCode {
                     $code = '</span>';
                 }
                 break;
+            case 'left':
+                if ($tag->opening) {
+                    $code = '<div style="text-align: left">';
+                } else {
+                    $code = '</div>';
+                }
+                break;
             case 'center':
                 if ($tag->opening) {
                     $code = '<div style="text-align: center">';
+                } else {
+                    $code = '</div>';
+                }
+                break;
+            case 'right':
+                if ($tag->opening) {
+                    $code = '<div style="text-align: right">';
+                } else {
+                    $code = '</div>';
+                }
+                break;
+            case 'spoiler':
+                if ($tag->opening) {
+                    $code = '<div class="spoiler">';
                 } else {
                     $code = '</div>';
                 }
@@ -423,9 +454,17 @@ class BBCode {
      */
     public function forgetTag($name)
     {
-        if (isset($this->customTagClosures[$name])) {
-            unset($this->customTagClosures[$name]);
-        }
+        unset($this->customTagClosures[$name]);
+    }
+
+    public function ignoreTag($name)
+    {
+        $this->ignoredTags[$name] = true;
+    }
+
+    public function permitTag($name)
+    {
+        unset($this->ignoredTags[$name]);
     }
 
     /**
