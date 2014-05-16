@@ -32,9 +32,6 @@ class BBCode {
      */
     protected $ignoredTags = array('spoiler' => true);
 
-    /**
-     * The constructor creates functions for all replacements.
-     */
     public function __construct($text = null) 
     {
         $this->text = $text;
