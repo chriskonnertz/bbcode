@@ -38,6 +38,16 @@ class BBCode {
     }
 
     /**
+     * Set the text
+     * 
+     * @param string $text The text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
      * Renders only the text without any tags
      * 
      * @param  string  $text    The BBCode string
@@ -402,6 +412,11 @@ class BBCode {
         }
 
         return $code;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
     }
 
     /**
