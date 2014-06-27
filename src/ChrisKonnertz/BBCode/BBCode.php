@@ -239,7 +239,7 @@ class BBCode {
                 if ($tag->opening) {
                     $code = '<pre><code>';
                 } else {
-                    $code = '</pre></code>';
+                    $code = '</code></pre>';
                 }
                 break;
             case 'email':
