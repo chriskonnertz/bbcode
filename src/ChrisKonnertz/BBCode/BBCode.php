@@ -67,9 +67,10 @@ class BBCode {
      * 
      * @param  string  $text    The BBCode string
      * @param  bool    $escape  Escape HTML entities? (Only "<" and ">"!)
+     * @param  bool    $keepLines   Replace line breaks?
      * @return string
      */
-    public function render($text = null, $escape = true) 
+    public function render($text = null, $escape = true, $keepLines = true) 
     {
         if ($this->text !== null and $text === null) {
             $text = $this->text;
@@ -89,6 +90,15 @@ class BBCode {
         for ($i = 0; $i < $len; $i++) {
             $char = $text[$i];
 
+            if ($keepLines) {
+                if ($char == "\n") {
+                    $html .= '<br/>';
+                }
+                if ($char == "\r") {
+                    continue;
+                }
+            }
+            
             if (! $escape or ($char != '<' and $char != '>')) {
                 /*
                  * $inTag == true means the current position is inside a tag
