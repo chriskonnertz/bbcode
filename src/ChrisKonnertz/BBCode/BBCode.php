@@ -65,8 +65,8 @@ class BBCode {
     /**
      * Renders BBCode to HMTL
      * 
-     * @param  string  $text    The BBCode string
-     * @param  bool    $escape  Escape HTML entities? (Only "<" and ">"!)
+     * @param  string  $text        The BBCode string
+     * @param  bool    $escape      Escape HTML entities? (Only "<" and ">"!)
      * @param  bool    $keepLines   Replace line breaks?
      * @return string
      */
@@ -98,7 +98,7 @@ class BBCode {
                     continue;
                 }
             }
-            
+
             if (! $escape or ($char != '<' and $char != '>')) {
                 /*
                  * $inTag == true means the current position is inside a tag
