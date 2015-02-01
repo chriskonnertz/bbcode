@@ -30,7 +30,7 @@ class BBCode {
      * Array of (name of) tags that are ignored
      * @var array
      */
-    protected $ignoredTags = array('spoiler' => false);
+    protected $ignoredTags = array();
 
     public function __construct($text = null) 
     {
@@ -212,7 +212,7 @@ class BBCode {
     {
         $code = null;
 
-        if (isset($this->ignoredTags[$tag->name])) {
+        if (in_array($tag->name, $this->ignoredTags)) {
             return $code;
         }
 
@@ -487,7 +487,9 @@ class BBCode {
      */
     public function ignoreTag($name)
     {
-        $this->ignoredTags[$name] = true;
+        if (! in_array($tag->name, $this->ignoredTags)) {
+            $this->ignoredTags[] = $name;
+        }
     }
 
     /**
@@ -498,7 +500,11 @@ class BBCode {
      */
     public function permitTag($name)
     {
-        unset($this->ignoredTags[$name]);
+        $key = array_search($name, $this->ignoredTags);
+
+        if ($key !== false) {
+            unset($key);
+        }
     }
 
     /**
