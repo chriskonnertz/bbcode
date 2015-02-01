@@ -30,7 +30,7 @@ class BBCode {
      * Array of (name of) tags that are ignored
      * @var array
      */
-    protected $ignoredTags = array('spoiler' => true);
+    protected $ignoredTags = array('spoiler' => false);
 
     public function __construct($text = null) 
     {
