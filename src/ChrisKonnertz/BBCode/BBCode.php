@@ -493,7 +493,7 @@ class BBCode {
     }
 
     /**
-     * Remove a tag from the arrax of ignored tags
+     * Remove a tag from the array of ignored tags
      * 
      * @param  string $name The name of the tag
      * @return void
