@@ -40,7 +40,7 @@ echo $rendered;
 * `[email]`: Email
 * `[url]`: URL
 * `[img]`: Image
-* `[\*]`: List item
+* `[*]`: List item
 * `[li]`: List item
 * `[quote]`: Quote
 * `[youtube]`: YouTube video
