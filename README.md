@@ -1,133 +1,73 @@
-## Instructions
 
-1. Include the BBCode class via Composer
-2. Instantiate the `BBCode` class
-3. Execute the `render` method on a string which contains BBCode (optionally pass `true` as the second argument to escape special HTML chars first)
-4. Enjoy HTML output
+# BBCode
 
-## Example Code
+A library that parser BBCode and converts it to HTML code. Written in PHP.
 
-```php
-<?php
+## Installation
 
-$text=<<<EOF
+Through Composer:
 
-[b]This is bold text[/b]
-
-[i]This is italic text[/i]
-
-[code]This is pre-formatted text[/code]
-
-[quote]This is a quote[/quote]
-
-[quote="Obama"]This is a quote by a specific person[/quote]
-
-[size=30]This text's size is set at 30%[/size]
-
-[s]This text has a strikethrough[/s]
-
-[u]This text is underlined.[/u]
-
-[center]This text is centered[/center]
-
-[color=red]This is red text[/color]
-
-[email]someone@somewhere.com[/email]
-
-[email=someone@somewhere.com]An e-mail link[/email]
-
-[url]http://www.google.com/[/url]
-
-[url=http://www.google.com/]Google.com yo![/url]
-
-[img]http://i.imgur.com/WqYEO.jpg[/img]
-
-An image as a link:
-
-[url=http://en.wikipedia.org/wiki/Ninja][img]http://i.imgur.com/8d7Yu.jpg[/img][/url]
-
-This is an unordered list: 
-
-[list]
-[*]list item #1
-[*]list item #2
-[*][b]bold list item #3[/b]
-[/list]
-
-This is an ordered (numbered) list: 
-
-[list=1]
-[*]list item #1
-[*]list item #2
-[*][b]bold list item #3[/b]
-[/list]
-
-This is an ordered (alpha) list: 
-
-[list=a]
-[*]list item #1
-[*]list item #2
-[*][b]bold list item #3[/b]
-[/list]
-
-[youtube]DabwEqsWWiA&hd[/youtube]
-
-EOF;
-
-$bbcode = new ChrisKonnertz\BBCode\BBCode;
-echo $bbcode->render('Hello [b]World[/b]!');  
-?>
+```
+composer require chriskonnertz/bbcode
 ```
 
-## Example Output
+From then on you may run `composer update` to get the latest version of this library.
 
-```html
+It is possible to use this library without using Composer but then it is necessary to register an 
+[autoloader function](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md#example-implementation).
 
-<strong>This is bold text</strong>
+> This library requires PHP 5.5 or higher.
 
-<em>This is italic text</em>
+## Usage example
 
-<pre><code>This is pre-formatted text</code><pre>
+Here is a minimalistic example of PHP code that uses this libary. It assumes that there is an autoloader.
 
-<blockquote><p>This is a quote</p></blockquote>
-
-Obama wrote: <blockquote><p>This is a quote by a specific person</p></blockquote>
-
-<span style="font-size:30%">This text's size is set at 30%</span>
-
-<del>This text has a strikethrough</del>
-
-<span style="text-decoration:underline;">This text is underlined.</span>
-
-<div style="text-align:center;">This text is centered</div>
-
-<span style="color:red;">This is red text</span>
-
-<a href="mailto:someone@somewhere.com">someone@somewhere.com</a>
-
-<a href="mailto:someone@somewhere.com">An e-mail link</a>
-
-<a href="http://www.google.com/">http://www.google.com/</a>
-
-<a href="http://www.google.com/">Google.com yo!</a>
-
-<img src="http://i.imgur.com/WqYEO.jpg"/>
-
-An image as a link:
-
-<a href="http://en.wikipedia.org/wiki/Ninja"><img src="http://i.imgur.com/8d7Yu.jpg"/></a>
-
-This is an unordered list: 
-
-<ul><li>list item #1</li><li>list item #2</li><li><strong>bold list item #3</strong></li></ul>
-
-This is an ordered (numbered) list: 
-
-<ol><li>list item #1</li><li>list item #2</li><li><strong>bold list item #3</strong></li></ol>
-
-This is an ordered (alpha) list: 
-
-<ol style="list-style-type: lower-alpha"><li>list item #1</li><li>list item #2</li><li><strong>bold list item #3</strong></li></ol>
-
-<iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/DabwEqsWWiA" frameborder="0"></iframe>
 ```
+$bbcode = new ChrisKonnertz\BBCode\BBCode();
+
+$rendered = $bbcode->render('[b]Hello world![/b]');
+
+echo $rendered;
+```
+
+## Supported Tags
+
+* [b] Bold
+* [i] Italic
+* [s] Struck through
+* [u] Underlined
+* [code] Code
+* [email Email
+* [url] URL
+* [img] Image
+* [\*] List item
+* [li] List item
+* [quote] Quote
+* [youtube] YouTube video
+* [font] Font
+* [size] Font size
+* [color] Font color
+* [left] Text-align: left
+* [center] Text-align: center
+* [right] Text-align: right
+* [spoiler] Spiler (just HTML code that needs JavaScript code have a function)
+
+You can add custom tags with the `addTag($name, Closure $closure)` method.
+
+## Helpful methods
+
+* `renderRaw($text = null)`: Renders only the text without any tags
+* `addTag($name, Closure $closure)`: Adds a custom tag (with name and a Closure)
+* `forgetTag($name)`: Remove the tag with the given name
+* `ignoreTag($name)`: Add a tag to the array of ignored tags
+* `permitTag($name)`: Remove a tag from the array of ignored tags
+
+Note that the `BBCode` class implements the `__toString()` method, which internally calls the `render()` method.
+
+## Fork
+
+This repository originally has been forked from [kaimallea/php-bbcode](https://github.com/kaimallea/php-bbcode). However, it has been completely rewritten.
+
+## Status
+
+Status of this repository: **Maintained**. Create an issue and you will get a response, usually within 48 hours.
