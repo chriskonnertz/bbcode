@@ -1,7 +1,7 @@
 
 # BBCode
 
-A library that parser BBCode and converts it to HTML code. Written in PHP.
+A library that parses BBCode and converts it to HTML code. Written in PHP.
 
 ## Installation
 
