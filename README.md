@@ -62,7 +62,7 @@ You can add custom tags with the `addTag($name, Closure $closure)` method.
 * `ignoreTag($name)`: Add a tag to the array of ignored tags
 * `permitTag($name)`: Remove a tag from the array of ignored tags
 
-Note that the `BBCode` class implements the `__toString()` method, which internally calls the `render()` method.
+The `BBCode` class also implements the `__toString()` method, which internally calls the `render()` method.
 
 ## Fork
 
