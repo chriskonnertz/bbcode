@@ -20,7 +20,7 @@ It is possible to use this library without using Composer but then it is necessa
 
 ## Usage example
 
-Here is a minimalistic example of PHP code that uses this libary. It assumes that there is an autoloader.
+Here is a minimalistic example of PHP code that uses this library. It assumes that there is an autoloader.
 
 ```
 $bbcode = new ChrisKonnertz\BBCode\BBCode();
