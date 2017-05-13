@@ -30,27 +30,27 @@ $rendered = $bbcode->render('[b]Hello world![/b]');
 echo $rendered;
 ```
 
-## Supported Tags
+## Available tags
 
-* `[b]`: Bold
-* `[i]`: Italic
-* `[s]`: Struck through
-* `[u]`: Underlined
+* `[b]`: Font style bold
+* `[i]`: Font style italic
+* `[s]`: Font style struck through
+* `[u]`: Font style underlined
 * `[code]`: Code
-* `[email]`: Email
-* `[url]`: URL
-* `[img]`: Image
+* `[email]`: Email (clickable)
+* `[url]`: URL (clickable)
+* `[img]`: Image (not clickable)
 * `[*]`: List item
 * `[li]`: List item
 * `[quote]`: Quote
-* `[youtube]`: YouTube video
-* `[font]`: Font
+* `[youtube]`: Embedded YouTube video
+* `[font]`: Font (name)
 * `[size]`: Font size
 * `[color]`: Font color
 * `[left]`: Text-align: left
 * `[center]`: Text-align: center
 * `[right]`: Text-align: right
-* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code have a function)
+* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code to add behaviour)
 
 You can add custom tags with the `addTag($name, Closure $closure)` method.
 
