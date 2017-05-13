@@ -32,25 +32,25 @@ echo $rendered;
 
 ## Supported Tags
 
-* [b] Bold
-* [i] Italic
-* [s] Struck through
-* [u] Underlined
-* [code] Code
-* [email Email
-* [url] URL
-* [img] Image
-* [\*] List item
-* [li] List item
-* [quote] Quote
-* [youtube] YouTube video
-* [font] Font
-* [size] Font size
-* [color] Font color
-* [left] Text-align: left
-* [center] Text-align: center
-* [right] Text-align: right
-* [spoiler] Spiler (just HTML code that needs JavaScript code have a function)
+* `[b]`: Bold
+* `[i]`: Italic
+* `[s]`: Struck through
+* `[u]`: Underlined
+* `[code]`: Code
+* `[email]`: Email
+* `[url]`: URL
+* `[img]`: Image
+* `[\*]`: List item
+* `[li]`: List item
+* `[quote]`: Quote
+* `[youtube]`: YouTube video
+* `[font]`: Font
+* `[size]`: Font size
+* `[color]`: Font color
+* `[left]`: Text-align: left
+* `[center]`: Text-align: center
+* `[right]`: Text-align: right
+* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code have a function)
 
 You can add custom tags with the `addTag($name, Closure $closure)` method.
 
