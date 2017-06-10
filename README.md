@@ -66,7 +66,7 @@ The `BBCode` class also implements the `__toString()` method, which internally c
 
 ## Fork
 
-This repository originally has been forked from [kaimallea/php-bbcode](https://github.com/kaimallea/php-bbcode). However, it has been completely rewritten.
+This repository originally has been forked from [kaimallea/php-bbcode](https://github.com/kaimallea/php-bbcode). However, it has been completely rewritten since then.
 
 ## Status
 
