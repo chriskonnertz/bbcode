@@ -7,7 +7,7 @@ A library that parses BBCode and converts it to HTML code. Written in PHP.
 
 Through Composer:
 
-```php
+```
 composer require chriskonnertz/bbcode
 ```
 
