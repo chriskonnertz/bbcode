@@ -7,7 +7,7 @@ A library that parses BBCode and converts it to HTML code. Written in PHP.
 
 Through Composer:
 
-```
+```php
 composer require chriskonnertz/bbcode
 ```
 
@@ -22,7 +22,7 @@ It is possible to use this library without using Composer but then it is necessa
 
 Here is a minimalistic example of PHP code that uses this library. It assumes that there is an autoloader.
 
-```
+```php
 $bbcode = new ChrisKonnertz\BBCode\BBCode();
 
 $rendered = $bbcode->render('[b]Hello world![/b]');
