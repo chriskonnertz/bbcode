@@ -88,7 +88,7 @@ class BBCode {
          * Loop over each character of the text
          */
         for ($i = 0; $i < $len; $i++) {
-            $char = $text[$i];
+            $char = substr($text, $i, 1);
 
             if ($keepLines) {
                 if ($char == "\n") {
