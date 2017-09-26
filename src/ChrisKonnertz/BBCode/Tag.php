@@ -34,7 +34,7 @@ class Tag
      * Tag constructor.
      *
      * @param string|null $name
-     * @param bool $opening
+     * @param bool        $opening
      */
     public function __construct($name = null, $opening = true)
     {
