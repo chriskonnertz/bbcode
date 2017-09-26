@@ -136,15 +136,15 @@ class BBCode
                             if ($tag->valid) {
                                 $code = null;
                                 if ($tag->opening) {
-                                    $code = $this->generateTag($tag, $html);    
+                                    $code = $this->generateTag($tag, $html);
                                 } else {
                                     $openingTag = $this->popTag($tags, $tag);
                                     if ($openingTag) {
                                         $code = $this->generateTag($tag, $html, $openingTag);
                                     }
-                                }                       
+                                }
 
-                                if ($code !== null and $tag->opening) { 
+                                if ($code !== null and $tag->opening) {
                                     $tags[$tag->name][] = $tag;
                                 }
                                 $html .= $code;
@@ -212,10 +212,11 @@ class BBCode
     }
 
     /**
-     * Generate the HTML code of the current tag
-     * 
-     * @param  Tag      $tag        The tag
-     * @param  Tag      $openingTag The opening tag that is linked to the tag (or null)
+     * Generates and returns the HTML code of the current tag
+     *
+     * @param  Tag      $tag        The current tag
+     * @param  string   $html       The current HTML code passed by reference - might be altered!
+     * @param  Tag|null $openingTag The opening tag that is linked to the tag (or null)
      * @return string
      */
     protected function generateTag(Tag $tag, &$html, Tag $openingTag = null)
@@ -442,7 +443,7 @@ class BBCode
     /**
      * Returns the last tag of a given type and removes it from the array.
      * 
-     * @param  array    $tags Array of tags
+     * @param  Tag[]    $tags Array of tags
      * @param  Tag      $tag  Return the last tag of the type of this tag
      * @return Tag
      */
