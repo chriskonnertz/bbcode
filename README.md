@@ -37,16 +37,16 @@ echo $rendered;
 * `[s]`: Font style struck through
 * `[u]`: Font style underlined
 * `[code]`: Code
-* `[email]`: Email (clickable)
-* `[url]`: URL (clickable)
-* `[img]`: Image (not clickable)
+* `[email]`: Email (clickable) - `[email]test@example.com[/email]`
+* `[url]`: URL (clickable) - `[url=http://example.com]Example.com[/url]`
+* `[img]`: Image (not clickable) - `[img]http://example.com/example.png[/img]`
 * `[*]`: List item
 * `[li]`: List item
 * `[quote]`: Quote
-* `[youtube]`: Embedded YouTube video
-* `[font]`: Font (name)
-* `[size]`: Font size
-* `[color]`: Font color
+* `[youtube]`: Embedded YouTube video - `[youtube]a-video-id-123456[/youtube]`
+* `[font]`: Font (name) - `[font=Arial]Hello world![/font]`
+* `[size]`: Font size - `[size=12]Hello world![/size]`
+* `[color]`: Font color - `[color=red]Hello world![/color]`
 * `[left]`: Text-align: left
 * `[center]`: Text-align: center
 * `[right]`: Text-align: right
