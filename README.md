@@ -32,25 +32,25 @@ echo $rendered;
 
 ## Available tags
 
-* `[b]`: Font style bold
-* `[i]`: Font style italic
-* `[s]`: Font style struck through
-* `[u]`: Font style underlined
-* `[code]`: Code
+* `[b]`: Font style bold - `[b]Hello world[/b]`
+* `[i]`: Font style italic - `[i]Hello world[/i]`
+* `[s]`: Font style struck through - `[s]Hello world[/s]`
+* `[u]`: Font style underlined - `[u]Hello world[/u]`
+* `[code]`: Code - `[code]Hello world[/code]`
 * `[email]`: Email (clickable) - `[email]test@example.com[/email]`
 * `[url]`: URL (clickable) - `[url=http://example.com]Example.com[/url]`
 * `[img]`: Image (not clickable) - `[img]http://example.com/example.png[/img]`
-* `[*]`: List item
-* `[li]`: List item
-* `[quote]`: Quote
+* `[*]`: List item - `[*]Hello world!\r\n[*]Hello moon!`
+* `[li]`: List item (alias) - `[li]Hello world!\r\n[li]Hello moon!`
+* `[quote]`: Quote - `[quote]Hello world[/quote]`
 * `[youtube]`: Embedded YouTube video - `[youtube]a-video-id-123456[/youtube]`
 * `[font]`: Font (name) - `[font=Arial]Hello world![/font]`
 * `[size]`: Font size - `[size=12]Hello world![/size]`
 * `[color]`: Font color - `[color=red]Hello world![/color]`
-* `[left]`: Text-align: left
-* `[center]`: Text-align: center
-* `[right]`: Text-align: right
-* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code to add behaviour)
+* `[left]`: Text-align: left - `[left]Hello world[/left]`
+* `[center]`: Text-align: center - `[center]Hello world[/center]`
+* `[right]`: Text-align: right - `[right]Hello world[/right]`
+* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code to add behaviour) - `[spoiler]Hello world[/spoiler]`
 
 You can add custom tags with the `addTag($name, Closure $closure)` method.
 
