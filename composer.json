@@ -5,11 +5,11 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Kai Mallea",
-            "email": "kmallea@gmail.com"
+            "name": "Chris Konnertz"
         },
         {
-            "name": "Chris Konnertz"
+            "name": "Kai Mallea",
+            "email": "kmallea@gmail.com"
         }
     ],
     "require": {
