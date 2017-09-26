@@ -64,6 +64,20 @@ You can add custom tags with the `addTag($name, Closure $closure)` method.
 
 The `BBCode` class also implements the `__toString()` method, which internally calls the `render()` method.
 
+## Custom Tag Exmaple
+
+This code will add a `[h1]` BBCode tag that creates a `<h1>` HTML tag:
+
+```php
+$bbcode->addTag('h1', function($tag, &$html, $openingTag) {
+    if ($tag->opening) {
+        return '<h1>';
+    } else {
+        return '</h1>';
+    }
+});
+```
+
 ## Fork
 
 This repository originally has been forked from [kaimallea/php-bbcode](https://github.com/kaimallea/php-bbcode). However, it has been completely rewritten since then.
