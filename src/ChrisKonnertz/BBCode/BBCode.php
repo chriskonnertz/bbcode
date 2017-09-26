@@ -77,7 +77,7 @@ class BBCode {
         }
         
         $html   = '';
-        $len    = strlen($text);
+        $len    = mb_strlen($text);
         $inTag  = false;            // True if current position is inside a tag
         $inName = false;            // True if current pos is inside a tag name
         $inStr  = false;            // True if current pos is inside a string
@@ -88,7 +88,7 @@ class BBCode {
          * Loop over each character of the text
          */
         for ($i = 0; $i < $len; $i++) {
-            $char = substr($text, $i, 1);
+            $char = mb_substr($text, $i, 1);
 
             if ($keepLines) {
                 if ($char == "\n") {
@@ -178,7 +178,7 @@ class BBCode {
                         $inTag          = true;
                         $inName         = true;
                         $tag            = new Tag();
-                        $tag->position  = strlen($html);
+                        $tag->position  = mb_strlen($html);
                     } else {
                         $html .= $char;
                     }
@@ -516,6 +516,6 @@ class BBCode {
      */
     protected function endsWith($haystack, $needle)
     {
-        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+        return $needle === "" || mb_substr($haystack, -mb_strlen($needle)) === $needle;
     }
 }
