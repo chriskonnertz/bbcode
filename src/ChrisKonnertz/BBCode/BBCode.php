@@ -497,7 +497,7 @@ class BBCode
      */
     public function ignoreTag($name)
     {
-        if (! in_array($tag->name, $this->ignoredTags)) {
+        if (! in_array($name, $this->ignoredTags)) {
             $this->ignoredTags[] = $name;
         }
     }
@@ -526,6 +526,6 @@ class BBCode
      */
     protected function endsWith($haystack, $needle)
     {
-        return $needle === "" || mb_substr($haystack, -mb_strlen($needle)) === $needle;
+        return $needle === '' or mb_substr($haystack, -mb_strlen($needle)) === $needle;
     }
 }
