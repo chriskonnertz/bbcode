@@ -1,4 +1,6 @@
-<?php namespace ChrisKonnertz\BBCode;
+<?php
+
+namespace ChrisKonnertz\BBCode;
 
 /*
  * BBCode to HTML converter
@@ -9,29 +11,37 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-use ChrisKonnertz\BBCode\Tag;
 use Closure;
 
-class BBCode {
+class BBCode
+{
 
     /**
      * The text with BBCodes
-     * @var string
+     *
+     * @var string|null
      */
     protected $text = null;
 
     /**
      * Array with custom tag Closures
-     * @var array
+     *
+     * @var Closure[]
      */
     protected $customTagClosures = array();
 
     /**
      * Array of (name of) tags that are ignored
-     * @var array
+     *
+     * @var string[]
      */
     protected $ignoredTags = array();
 
+    /**
+     * BBCode constructor.
+     *
+     * @param string|null $text
+     */
     public function __construct($text = null) 
     {
         $this->text = $text;
@@ -63,7 +73,7 @@ class BBCode {
     }
 
     /**
-     * Renders BBCode to HMTL
+     * Renders BBCode to HTML
      * 
      * @param  string  $text        The BBCode string
      * @param  bool    $escape      Escape HTML entities? (Only "<" and ">"!)
