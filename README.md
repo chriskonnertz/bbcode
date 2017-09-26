@@ -1,5 +1,8 @@
-
 # BBCode
+
+[![Build Status](https://img.shields.io/travis/chriskonnertz/bbcode.svg)](https://travis-ci.org/chriskonnertz/bbcode)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chriskonnertz/bbcode/master/LICENSE)
+[![Version](https://img.shields.io/packagist/v/chriskonnertz/bbcode.svg)](https://packagist.org/packages/chriskonnertz/bbcode)
 
 A library that parses BBCode and converts it to HTML code. Written in PHP.
 
