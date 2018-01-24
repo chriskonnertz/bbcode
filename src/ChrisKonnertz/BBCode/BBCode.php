@@ -40,6 +40,32 @@ class BBCode
     const TAG_SPOILER   = 'spoiler';
 
     /**
+     * Array with the names of all tags
+     */
+    const TAGS = [
+        self::TAG_B,
+        self::TAG_I,
+        self::TAG_S,
+        self::TAG_U,
+        self::TAG_CODE,
+        self::TAG_EMAIL,
+        self::TAG_URL,
+        self::TAG_IMG,
+        self::TAG_LIST,
+        self::TAG_LI_STAR,
+        self::TAG_LI,
+        self::TAG_QUOTE,
+        self::TAG_YOUTUBE,
+        self::TAG_FONT,
+        self::TAG_SIZE,
+        self::TAG_COLOR,
+        self::TAG_LEFT,
+        self::TAG_CENTER,
+        self::TAG_RIGHT,
+        self::TAG_SPOILER,
+    ];
+
+    /**
      * The text with BBCodes
      *
      * @var string|null
