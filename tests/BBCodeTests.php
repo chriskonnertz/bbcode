@@ -1,16 +1,18 @@
 <?php
 
+use ChrisKonnertz\BBCode\BBCode;
+
 class BBCodeTest extends PHPUnit_Framework_TestCase
 {
 
     /**
      * Creates a new instance of the main class and returns it
      *
-     * @return \ChrisKonnertz\BBCode\BBCode
+     * @return BBCode
      */
     protected function getInstance()
     {
-        return new ChrisKonnertz\BBCode\BBCode();
+        return new BBCode();
     }
 
     /**
