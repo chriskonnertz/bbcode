@@ -16,7 +16,8 @@ class BBCode
 {
 
     /**
-     * Constants with the names of the built-in tags
+     * Constants with the names of the built-in default tags
+     * Call getDefaultTagNames() to get them as an array.
      */
     const TAG_NAME_B         = 'b';
     const TAG_NAME_I         = 'i';
@@ -38,32 +39,6 @@ class BBCode
     const TAG_NAME_CENTER    = 'center';
     const TAG_NAME_RIGHT     = 'right';
     const TAG_NAME_SPOILER   = 'spoiler';
-
-    /**
-     * Array with the names of all tags
-     */
-    const TAG_NAMES = [
-        self::TAG_NAME_B,
-        self::TAG_NAME_I,
-        self::TAG_NAME_S,
-        self::TAG_NAME_U,
-        self::TAG_NAME_CODE,
-        self::TAG_NAME_EMAIL,
-        self::TAG_NAME_URL,
-        self::TAG_NAME_IMG,
-        self::TAG_NAME_LIST,
-        self::TAG_NAME_LI_STAR,
-        self::TAG_NAME_LI,
-        self::TAG_NAME_QUOTE,
-        self::TAG_NAME_YOUTUBE,
-        self::TAG_NAME_FONT,
-        self::TAG_NAME_SIZE,
-        self::TAG_NAME_COLOR,
-        self::TAG_NAME_LEFT,
-        self::TAG_NAME_CENTER,
-        self::TAG_NAME_RIGHT,
-        self::TAG_NAME_SPOILER,
-    ];
 
     /**
      * The text with BBCodes
@@ -642,6 +617,37 @@ class BBCode
     public function setYouTubeHeight($youTubeHeight)
     {
         $this->youTubeHeight = $youTubeHeight;
+    }
+
+    /**
+     * Returns an array with the names of all default tags
+     *
+     * @return string[]
+     */
+    public function getDefaultTagNames()
+    {
+        return [
+            self::TAG_NAME_B,
+            self::TAG_NAME_I,
+            self::TAG_NAME_S,
+            self::TAG_NAME_U,
+            self::TAG_NAME_CODE,
+            self::TAG_NAME_EMAIL,
+            self::TAG_NAME_URL,
+            self::TAG_NAME_IMG,
+            self::TAG_NAME_LIST,
+            self::TAG_NAME_LI_STAR,
+            self::TAG_NAME_LI,
+            self::TAG_NAME_QUOTE,
+            self::TAG_NAME_YOUTUBE,
+            self::TAG_NAME_FONT,
+            self::TAG_NAME_SIZE,
+            self::TAG_NAME_COLOR,
+            self::TAG_NAME_LEFT,
+            self::TAG_NAME_CENTER,
+            self::TAG_NAME_RIGHT,
+            self::TAG_NAME_SPOILER,
+        ];
     }
 
     /**
