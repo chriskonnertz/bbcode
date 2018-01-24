@@ -43,8 +43,6 @@ echo $rendered;
 * `[email]`: Email (clickable) - `[email]test@example.com[/email]`
 * `[url]`: URL (clickable) - `[url=http://example.com]Example.com[/url]`
 * `[img]`: Image (not clickable) - `[img]http://example.com/example.png[/img]`
-* `[*]`: List item - `[*]Hello world!\r\n[*]Hello moon!`
-* `[li]`: List item (alias) - `[li]Hello world!\r\n[li]Hello moon!`
 * `[quote]`: Quote - `[quote]Hello world[/quote]`
 * `[youtube]`: Embedded YouTube video - `[youtube]a-video-id-123456[/youtube]`
 * `[font]`: Font (name) - `[font=Arial]Hello world![/font]`
@@ -54,6 +52,11 @@ echo $rendered;
 * `[center]`: Text-align: center - `[center]Hello world[/center]`
 * `[right]`: Text-align: right - `[right]Hello world[/right]`
 * `[spoiler]`: Spoiler (just HTML code that needs JavaScript code to add behaviour) - `[spoiler]Hello world[/spoiler]`
+* List:
+  *  `[list]`: List - `[list]...list items...[/list]`
+  * `[*]`: List item within a list - `[*]Hello world!\r\n[*]Hello moon!`
+  * `[li]`: List item within a list (alias) - `[li]Hello world!\r\n[li]Hello moon!`
+  * Full example: `[list][*]Hello world!\r\n[*]Hello moon![/list]` 
 
 You can add custom tags with the `addTag($name, Closure $closure)` method.
 
@@ -67,7 +70,7 @@ You can add custom tags with the `addTag($name, Closure $closure)` method.
 
 The `BBCode` class also implements the `__toString()` method, which internally calls the `render()` method.
 
-## Custom Tag Exmaple
+## Custom tag exmaple
 
 This code will add a `[h1]` BBCode tag that creates a `<h1>` HTML tag:
 
