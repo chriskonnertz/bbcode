@@ -42,7 +42,7 @@ class BBCode
     /**
      * Array with the names of all tags
      */
-    const TAGS = [
+    const TAG_NAMES = [
         self::TAG_NAME_B,
         self::TAG_NAME_I,
         self::TAG_NAME_S,
