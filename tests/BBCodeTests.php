@@ -2,15 +2,27 @@
 
 class BBCodeTest extends PHPUnit_Framework_TestCase
 {
-    
+
+    /**
+     * Creates a new instance of the main class and returns it
+     *
+     * @return \ChrisKonnertz\BBCode\BBCode
+     */
     protected function getInstance()
     {
         return new ChrisKonnertz\BBCode\BBCode();
     }
 
+    /**
+     * Renders text with BBCode as HTML code and returns it
+     *
+     * @param string $text
+     * @return string
+     */
     protected function render($text)
     {
         $bbcode = $this->getInstance();
+
         return $bbcode->render($text);
     }
 
@@ -116,6 +128,42 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
 
         $html = $this->render($bbCode);
         $this->assertEquals($html, '<strong>We ❤❤❤❤❤❤❤❤❤❤❤ BBCode</strong>');
+    }
+
+    public function testToString()
+    {
+        $bbCode = $this->getInstance('[b]bold[/b]');
+
+        $this->assertEquals($bbCode->render(), (string) $bbCode);
+    }
+
+    public function testIgnoringTags()
+    {
+        $bbCode = $this->getInstance();
+
+        $bbCode->ignoreTag(BBCode::TAG_B);
+        $ignoredTags = $bbCode->getIgnoredTags();
+
+        $this->assertEquals([BBCode::TAG_B], $ignoredTags);
+
+        $bbCode->permitTag(BBCode::TAG_B);
+        $ignoredTags = $bbCode->getIgnoredTags();
+
+        $this->assertEquals([], $ignoredTags);
+    }
+
+    public function testYouTubeSizeModifiers()
+    {
+        $bbCode = $this->getInstance();
+
+        $width = $bbCode->getYouTubeWidth() + 1;
+        $height = $bbCode->getYouTubeHeight() + 1;
+
+        $bbCode->setYouTubeWidth($width);
+        $bbCode->setYouTubeHeight($height);
+
+        $this->assertEquals($width, $bbCode->getYouTubeWidth());
+        $this->assertEquals($height, $bbCode->getYouTubeHeight());
     }
 
 }

@@ -40,20 +40,6 @@ class BBCode
     const TAG_SPOILER   = 'spoiler';
 
     /**
-     * Widht (in pixels) of the YouTube iframe element
-     *
-     * @var int
-     */
-    protected $youTubeWidth = 640;
-
-    /**
-     * Height (in pixels) of the YouTube iframe element
-     *
-     * @var int
-     */
-    protected $youTubeHeight = 385;
-
-    /**
      * The text with BBCodes
      *
      * @var string|null
@@ -75,13 +61,27 @@ class BBCode
     protected $ignoredTags = array();
 
     /**
+     * Widht (in pixels) of the YouTube iframe element
+     *
+     * @var int
+     */
+    protected $youTubeWidth = 640;
+
+    /**
+     * Height (in pixels) of the YouTube iframe element
+     *
+     * @var int
+     */
+    protected $youTubeHeight = 385;
+
+    /**
      * BBCode constructor.
      *
      * @param string|null $text The text - might include BBCode tags
      */
     public function __construct($text = null) 
     {
-        $this->text = $text;
+        $this->setText($text);
     }
 
     /**
@@ -96,9 +96,9 @@ class BBCode
     }
 
     /**
-     * Renders only the text without any tags
+     * Renders only the text without any BBCode tags
      * 
-     * @param  string $text The BBCode string
+     * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
      * @return string
      */
     public function renderRaw($text = null)
@@ -106,14 +106,14 @@ class BBCode
         if ($this->text !== null and $text === null) {
             $text = $this->text;
         }
-        
+
         return preg_replace("/\[(.*?)\]/is", '', $text);
     }
 
     /**
      * Renders BBCode to HTML
      * 
-     * @param  string  $text      The BBCode string
+     * @param  string  $text      Optional: Render the passed BBCode string instead of the internally stored one
      * @param  bool    $escape    Escape HTML entities? (Only "<" and ">"!)
      * @param  bool    $keepLines Keep line breaks by replacing them with <br>?
      * @return string
@@ -211,7 +211,7 @@ class BBCode
                                         $tag->valid = false;
                                     }
                                 } else {
-                                    $tag->name .= strtolower($char);    
+                                    $tag->name .= mb_strtolower($char);
                                 }
                             }
                         } else { // If we are not inside the name we are inside a property
@@ -312,7 +312,7 @@ class BBCode
                     if ($openingTag->property) {
                         $code = '</a>';
                     } else {
-                        $code .= '">'.substr($html, $openingTag->position + 16).'</a>';
+                        $code .= '">'.mb_substr($html, $openingTag->position + 16).'</a>';
                     }
                 }
                 break;
@@ -327,8 +327,8 @@ class BBCode
                     if ($openingTag->property) {
                         $code = '</a>';
                     } else {
-                        $partial = substr($html, $openingTag->position + 9);
-                        $html = substr($html, 0, $openingTag->position + 9)
+                        $partial = mb_substr($html, $openingTag->position + 9);
+                        $html = mb_substr($html, 0, $openingTag->position + 9)
                             .strip_tags($partial).'">'.$partial.'</a>';
                     }
                 }
@@ -528,7 +528,7 @@ class BBCode
     }
 
     /**
-     * Remove the tag with the given name
+     * Remove the custom tag with the given name
      * 
      * @param  string $name
      * @return void
@@ -590,6 +590,7 @@ class BBCode
      * Set the width of the YouTube iframe element
      *
      * @param int $youTubeWidth
+     * @return void
      */
     public function setYouTubeWidth($youTubeWidth)
     {
@@ -610,6 +611,7 @@ class BBCode
      * Set the height of the YouTube iframe element
      *
      * @param int $youTubeHeight
+     * @return void
      */
     public function setYouTubeHeight($youTubeHeight)
     {
