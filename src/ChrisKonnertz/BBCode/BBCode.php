@@ -18,51 +18,51 @@ class BBCode
     /**
      * Constants with the names of the built-in tags
      */
-    const TAG_B         = 'b';
-    const TAG_I         = 'i';
-    const TAG_S         = 's';
-    const TAG_U         = 'u';
-    const TAG_CODE      = 'code';
-    const TAG_EMAIL     = 'email';
-    const TAG_URL       = 'url';
-    const TAG_IMG       = 'img';
-    const TAG_LIST      = 'list';
-    const TAG_LI_STAR   = '*';
-    const TAG_LI        = 'li';
-    const TAG_QUOTE     = 'quote';
-    const TAG_YOUTUBE   = 'youtube';
-    const TAG_FONT      = 'font';
-    const TAG_SIZE      = 'size';
-    const TAG_COLOR     = 'color';
-    const TAG_LEFT      = 'left';
-    const TAG_CENTER    = 'center';
-    const TAG_RIGHT     = 'right';
-    const TAG_SPOILER   = 'spoiler';
+    const TAG_NAME_B         = 'b';
+    const TAG_NAME_I         = 'i';
+    const TAG_NAME_S         = 's';
+    const TAG_NAME_U         = 'u';
+    const TAG_NAME_CODE      = 'code';
+    const TAG_NAME_EMAIL     = 'email';
+    const TAG_NAME_URL       = 'url';
+    const TAG_NAME_IMG       = 'img';
+    const TAG_NAME_LIST      = 'list';
+    const TAG_NAME_LI_STAR   = '*';
+    const TAG_NAME_LI        = 'li';
+    const TAG_NAME_QUOTE     = 'quote';
+    const TAG_NAME_YOUTUBE   = 'youtube';
+    const TAG_NAME_FONT      = 'font';
+    const TAG_NAME_SIZE      = 'size';
+    const TAG_NAME_COLOR     = 'color';
+    const TAG_NAME_LEFT      = 'left';
+    const TAG_NAME_CENTER    = 'center';
+    const TAG_NAME_RIGHT     = 'right';
+    const TAG_NAME_SPOILER   = 'spoiler';
 
     /**
      * Array with the names of all tags
      */
     const TAGS = [
-        self::TAG_B,
-        self::TAG_I,
-        self::TAG_S,
-        self::TAG_U,
-        self::TAG_CODE,
-        self::TAG_EMAIL,
-        self::TAG_URL,
-        self::TAG_IMG,
-        self::TAG_LIST,
-        self::TAG_LI_STAR,
-        self::TAG_LI,
-        self::TAG_QUOTE,
-        self::TAG_YOUTUBE,
-        self::TAG_FONT,
-        self::TAG_SIZE,
-        self::TAG_COLOR,
-        self::TAG_LEFT,
-        self::TAG_CENTER,
-        self::TAG_RIGHT,
-        self::TAG_SPOILER,
+        self::TAG_NAME_B,
+        self::TAG_NAME_I,
+        self::TAG_NAME_S,
+        self::TAG_NAME_U,
+        self::TAG_NAME_CODE,
+        self::TAG_NAME_EMAIL,
+        self::TAG_NAME_URL,
+        self::TAG_NAME_IMG,
+        self::TAG_NAME_LIST,
+        self::TAG_NAME_LI_STAR,
+        self::TAG_NAME_LI,
+        self::TAG_NAME_QUOTE,
+        self::TAG_NAME_YOUTUBE,
+        self::TAG_NAME_FONT,
+        self::TAG_NAME_SIZE,
+        self::TAG_NAME_COLOR,
+        self::TAG_NAME_LEFT,
+        self::TAG_NAME_CENTER,
+        self::TAG_NAME_RIGHT,
+        self::TAG_NAME_SPOILER,
     ];
 
     /**
@@ -292,42 +292,42 @@ class BBCode
         }
 
         switch ($tag->name) {
-            case self::TAG_B:
+            case self::TAG_NAME_B:
                 if ($tag->opening) {
                     $code = '<strong>';
                 } else {
                     $code = '</strong>';
                 }
                 break;
-            case self::TAG_I:
+            case self::TAG_NAME_I:
                 if ($tag->opening) {
                     $code = '<em>';
                 } else {
                     $code = '</em>';
                 }
                 break;
-            case self::TAG_S:
+            case self::TAG_NAME_S:
                 if ($tag->opening) {
                     $code = '<del>';
                 } else {
                     $code = '</del>';
                 }
                 break;
-            case self::TAG_U:
+            case self::TAG_NAME_U:
                 if ($tag->opening) {
                     $code = '<span style="text-decoration: underline">';
                 } else {
                     $code = '</span>';
                 }
                 break;
-            case self::TAG_CODE:
+            case self::TAG_NAME_CODE:
                 if ($tag->opening) {
                     $code = '<pre><code>';
                 } else {
                     $code = '</code></pre>';
                 }
                 break;
-            case self::TAG_EMAIL:
+            case self::TAG_NAME_EMAIL:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<a href="mailto:'.$tag->property.'">';
@@ -342,7 +342,7 @@ class BBCode
                     }
                 }
                 break;
-            case self::TAG_URL:
+            case self::TAG_NAME_URL:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<a href="'.$tag->property.'">';
@@ -359,14 +359,14 @@ class BBCode
                     }
                 }
                 break;
-            case self::TAG_IMG:
+            case self::TAG_NAME_IMG:
                 if ($tag->opening) {
                     $code = '<img src="';
                 } else {
                     $code = '" />';
                 }
                 break;
-            case self::TAG_LIST:
+            case self::TAG_NAME_LIST:
                 if ($tag->opening) {
                     $listType = '<ul>';
 
@@ -396,7 +396,7 @@ class BBCode
                     }
                 }
                 break;
-            case self::TAG_LI_STAR:
+            case self::TAG_NAME_LI_STAR:
                 if ($tag->opening) {
                     $tag->opening = false;
                     if ($this->endsWith($html, '<ul>')) {
@@ -406,14 +406,14 @@ class BBCode
                     }
                 }
                 break;
-            case self::TAG_LI:
+            case self::TAG_NAME_LI:
                 if ($tag->opening) {
                     $code = '<li>';
                 } else {
                     $code = '</li>';
                 }
                 break;
-            case self::TAG_QUOTE:
+            case self::TAG_NAME_QUOTE:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<blockquote><span class="author">'.$tag->property.':</span><br/>';
@@ -424,7 +424,7 @@ class BBCode
                     $code = '</blockquote>';
                 }
                 break;
-            case self::TAG_YOUTUBE:
+            case self::TAG_NAME_YOUTUBE:
                 if ($tag->opening) {
                     $code = '<iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
                         height="' . $this->youTubeHeight . '" src="http://www.youtube.com/embed/';
@@ -432,7 +432,7 @@ class BBCode
                     $code = '" frameborder="0"></iframe>';
                 }
                 break;
-            case self::TAG_FONT:
+            case self::TAG_NAME_FONT:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="font-family: '.$tag->property.'">';
@@ -441,7 +441,7 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case self::TAG_SIZE:
+            case self::TAG_NAME_SIZE:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="font-size: '.$tag->property.'%">';
@@ -450,7 +450,7 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case self::TAG_COLOR:
+            case self::TAG_NAME_COLOR:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="color: '.$tag->property.'">';
@@ -459,28 +459,28 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case self::TAG_LEFT:
+            case self::TAG_NAME_LEFT:
                 if ($tag->opening) {
                     $code = '<div style="text-align: left">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case self::TAG_CENTER:
+            case self::TAG_NAME_CENTER:
                 if ($tag->opening) {
                     $code = '<div style="text-align: center">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case self::TAG_RIGHT:
+            case self::TAG_NAME_RIGHT:
                 if ($tag->opening) {
                     $code = '<div style="text-align: right">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case self::TAG_SPOILER:
+            case self::TAG_NAME_SPOILER:
                 if ($tag->opening) {
                     $code = '<div class="spoiler">';
                 } else {

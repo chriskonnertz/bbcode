@@ -143,12 +143,12 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
     {
         $bbCode = $this->getInstance();
 
-        $bbCode->ignoreTag(BBCode::TAG_B);
+        $bbCode->ignoreTag(BBCode::TAG_NAME_B);
         $ignoredTags = $bbCode->getIgnoredTags();
 
-        $this->assertEquals([BBCode::TAG_B], $ignoredTags);
+        $this->assertEquals([BBCode::TAG_NAME_B], $ignoredTags);
 
-        $bbCode->permitTag(BBCode::TAG_B);
+        $bbCode->permitTag(BBCode::TAG_NAME_B);
         $ignoredTags = $bbCode->getIgnoredTags();
 
         $this->assertEquals([], $ignoredTags);
