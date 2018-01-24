@@ -588,7 +588,7 @@ class BBCode
         $key = array_search($name, $this->ignoredTags);
 
         if ($key !== false) {
-            unset($key);
+            unset($this->ignoredTags[$key]);
         }
     }
 
