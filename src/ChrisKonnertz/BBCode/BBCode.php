@@ -2,19 +2,56 @@
 
 namespace ChrisKonnertz\BBCode;
 
+use Closure;
+
 /*
  * BBCode to HTML converter
  *
  * Inspired by Kai Mallea (kmallea@gmail.com)
  *
- * Licensed under the MIT license: 
+ * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
  */
-
-use Closure;
-
 class BBCode
 {
+
+    /**
+     * Constants with the names of the built-in tags
+     */
+    const TAG_B         = 'b';
+    const TAG_I         = 'i';
+    const TAG_S         = 's';
+    const TAG_U         = 'u';
+    const TAG_CODE      = 'code';
+    const TAG_EMAIL     = 'email';
+    const TAG_URL       = 'url';
+    const TAG_IMG       = 'img';
+    const TAG_LIST      = 'list';
+    const TAG_LI_STAR   = '*';
+    const TAG_LI        = 'li';
+    const TAG_QUOTE     = 'quote';
+    const TAG_YOUTUBE   = 'youtube';
+    const TAG_FONT      = 'font';
+    const TAG_SIZE      = 'size';
+    const TAG_COLOR     = 'color';
+    const TAG_LEFT      = 'left';
+    const TAG_CENTER    = 'center';
+    const TAG_RIGHT     = 'right';
+    const TAG_SPOILER   = 'spoiler';
+
+    /**
+     * Widht (in pixels) of the YouTube iframe element
+     *
+     * @var int
+     */
+    protected $youTubeWidth = 640;
+
+    /**
+     * Height (in pixels) of the YouTube iframe element
+     *
+     * @var int
+     */
+    protected $youTubeHeight = 385;
 
     /**
      * The text with BBCodes
@@ -40,7 +77,7 @@ class BBCode
     /**
      * BBCode constructor.
      *
-     * @param string|null $text
+     * @param string|null $text The text - might include BBCode tags
      */
     public function __construct($text = null) 
     {
@@ -48,9 +85,10 @@ class BBCode
     }
 
     /**
-     * Set the text
+     * Set the raw text - might include BBCode tags
      * 
      * @param string $text The text
+     * @retun void
      */
     public function setText($text)
     {
@@ -60,7 +98,7 @@ class BBCode
     /**
      * Renders only the text without any tags
      * 
-     * @param  string  $text    The BBCode string
+     * @param  string $text The BBCode string
      * @return string
      */
     public function renderRaw($text = null)
@@ -75,9 +113,9 @@ class BBCode
     /**
      * Renders BBCode to HTML
      * 
-     * @param  string  $text        The BBCode string
-     * @param  bool    $escape      Escape HTML entities? (Only "<" and ">"!)
-     * @param  bool    $keepLines   Replace line breaks?
+     * @param  string  $text      The BBCode string
+     * @param  bool    $escape    Escape HTML entities? (Only "<" and ">"!)
+     * @param  bool    $keepLines Keep line breaks by replacing them with <br>?
      * @return string
      */
     public function render($text = null, $escape = true, $keepLines = true) 
@@ -228,42 +266,42 @@ class BBCode
         }
 
         switch ($tag->name) {
-            case 'b':
+            case self::TAG_B:
                 if ($tag->opening) {
                     $code = '<strong>';
                 } else {
                     $code = '</strong>';
                 }
                 break;
-            case 'i':
+            case self::TAG_I:
                 if ($tag->opening) {
                     $code = '<em>';
                 } else {
                     $code = '</em>';
                 }
                 break;
-            case 's':
+            case self::TAG_S:
                 if ($tag->opening) {
                     $code = '<del>';
                 } else {
                     $code = '</del>';
                 }
                 break;
-            case 'u':
+            case self::TAG_U:
                 if ($tag->opening) {
                     $code = '<span style="text-decoration: underline">';
                 } else {
                     $code = '</span>';
                 }
                 break;
-            case 'code':
+            case self::TAG_CODE:
                 if ($tag->opening) {
                     $code = '<pre><code>';
                 } else {
                     $code = '</code></pre>';
                 }
                 break;
-            case 'email':
+            case self::TAG_EMAIL:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<a href="mailto:'.$tag->property.'">';
@@ -278,7 +316,7 @@ class BBCode
                     }
                 }
                 break;
-            case 'url':
+            case self::TAG_URL:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<a href="'.$tag->property.'">';
@@ -295,14 +333,14 @@ class BBCode
                     }
                 }
                 break;
-            case 'img':
+            case self::TAG_IMG:
                 if ($tag->opening) {
                     $code = '<img src="';
                 } else {
                     $code = '" />';
                 }
                 break;
-            case 'list':
+            case self::TAG_LIST:
                 if ($tag->opening) {
                     $listType = '<ul>';
 
@@ -332,7 +370,7 @@ class BBCode
                     }
                 }
                 break;
-            case '*':
+            case self::TAG_LI_STAR:
                 if ($tag->opening) {
                     $tag->opening = false;
                     if ($this->endsWith($html, '<ul>')) {
@@ -342,14 +380,14 @@ class BBCode
                     }
                 }
                 break;
-            case 'li':
+            case self::TAG_LI:
                 if ($tag->opening) {
                     $code = '<li>';
                 } else {
                     $code = '</li>';
                 }
                 break;
-            case 'quote':
+            case self::TAG_QUOTE:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<blockquote><span class="author">'.$tag->property.':</span><br/>';
@@ -360,15 +398,15 @@ class BBCode
                     $code = '</blockquote>';
                 }
                 break;
-            case 'youtube':
+            case self::TAG_YOUTUBE:
                 if ($tag->opening) {
-                    $code = '<iframe class="youtube-player" type="text/html" width="640"\
-                        height="385" src="http://www.youtube.com/embed/';
+                    $code = '<iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
+                        height="' . $this->youTubeHeight . '" src="http://www.youtube.com/embed/';
                 } else {
                     $code = '" frameborder="0"></iframe>';
                 }
                 break;
-            case 'font':
+            case self::TAG_FONT:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="font-family: '.$tag->property.'">';
@@ -377,7 +415,7 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case 'size':
+            case self::TAG_SIZE:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="font-size: '.$tag->property.'%">';
@@ -386,7 +424,7 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case 'color':
+            case self::TAG_COLOR:
                 if ($tag->opening) {
                     if ($tag->property) {
                         $code = '<span style="color: '.$tag->property.'">';
@@ -395,28 +433,28 @@ class BBCode
                     $code = '</span>';
                 }
                 break;
-            case 'left':
+            case self::TAG_LEFT:
                 if ($tag->opening) {
                     $code = '<div style="text-align: left">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case 'center':
+            case self::TAG_CENTER:
                 if ($tag->opening) {
                     $code = '<div style="text-align: center">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case 'right':
+            case self::TAG_RIGHT:
                 if ($tag->opening) {
                     $code = '<div style="text-align: right">';
                 } else {
                     $code = '</div>';
                 }
                 break;
-            case 'spoiler':
+            case self::TAG_SPOILER:
                 if ($tag->opening) {
                     $code = '<div class="spoiler">';
                 } else {
@@ -435,6 +473,11 @@ class BBCode
         return $code;
     }
 
+    /**
+     * Magic method __toString()
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();
@@ -445,15 +488,17 @@ class BBCode
      * 
      * @param  Tag[]    $tags Array of tags
      * @param  Tag      $tag  Return the last tag of the type of this tag
-     * @return Tag
+     * @return Tag|null
      */
     protected function popTag(array &$tags, $tag)
     {
-        if (! isset($tags[$tag->name])) return null;
+        if (! isset($tags[$tag->name])) {
+            return null;
+        }
 
         $size = sizeof($tags[$tag->name]);
 
-        if ($size == 0) {
+        if ($size === 0) {
             return null;
         } else {
             return array_pop($tags[$tag->name]);
@@ -462,7 +507,9 @@ class BBCode
 
     /**
      * Adds a custom tag (with name and a Closure)
+     *
      * Example:
+     *
      * $bbcode->addTag('example', function($tag, &$html, $openingTag) {
      *     if ($tag->opening) {
      *         return '<span class="example">';
@@ -472,7 +519,8 @@ class BBCode
      * });
      * 
      * @param string  $name    The name of the tag
-     * @param Closure $closure The Closure handling the tag
+     * @param Closure $closure The Closure that renders the tag
+     * @return void
      */
     public function addTag($name, Closure $closure)
     {
@@ -482,7 +530,7 @@ class BBCode
     /**
      * Remove the tag with the given name
      * 
-     * @param  string  $name
+     * @param  string $name
      * @return void
      */
     public function forgetTag($name)
@@ -519,6 +567,56 @@ class BBCode
     }
 
     /**
+     * Returns an array with the name of the tags that are ignored
+     *
+     * @return string[]
+     */
+    public function getIgnoredTags()
+    {
+        return $this->ignoredTags;
+    }
+
+    /**
+     * Get the width of the YouTube iframe element
+     *
+     * @return int
+     */
+    public function getYouTubeWidth()
+    {
+        return $this->youTubeWidth;
+    }
+
+    /**
+     * Set the width of the YouTube iframe element
+     *
+     * @param int $youTubeWidth
+     */
+    public function setYouTubeWidth($youTubeWidth)
+    {
+        $this->youTubeWidth = $youTubeWidth;
+    }
+
+    /**
+     * Get the height of the YouTube iframe element
+     *
+     * @return int
+     */
+    public function getYouTubeHeight()
+    {
+        return $this->youTubeHeight;
+    }
+
+    /**
+     * Set the height of the YouTube iframe element
+     *
+     * @param int $youTubeHeight
+     */
+    public function setYouTubeHeight($youTubeHeight)
+    {
+        $this->youTubeHeight = $youTubeHeight;
+    }
+
+    /**
      * Returns true if $haystack ends with $needle
      * 
      * @param  string $haystack
@@ -527,6 +625,6 @@ class BBCode
      */
     protected function endsWith($haystack, $needle)
     {
-        return $needle === '' or mb_substr($haystack, -mb_strlen($needle)) === $needle;
+        return ($needle === '' or mb_substr($haystack, -mb_strlen($needle)) === $needle);
     }
 }
