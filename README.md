@@ -51,7 +51,7 @@ echo $rendered;
 * `[left]`: Text-align: left - `[left]Hello world[/left]`
 * `[center]`: Text-align: center - `[center]Hello world[/center]`
 * `[right]`: Text-align: right - `[right]Hello world[/right]`
-* `[spoiler]`: Spoiler (just HTML code that needs JavaScript code to add behaviour) - `[spoiler]Hello world[/spoiler]`
+* `[spoiler]`: Spoiler (pure HTML code that needs JavaScript code to add behaviour) - `[spoiler]Hello world[/spoiler]`
 * List:
   *  `[list]`: List - `[list]...list items...[/list]`
   * `[*]`: List item within a list - `[*]Hello world!\r\n[*]Hello moon!`
@@ -83,6 +83,10 @@ $bbcode->addTag('h1', function($tag, &$html, $openingTag) {
     }
 });
 ```
+
+## Multibyte characters
+
+This library supports the use of multibyte characters.
 
 ## Fork
 
