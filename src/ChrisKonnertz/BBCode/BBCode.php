@@ -97,18 +97,30 @@ class BBCode
     }
 
     /**
-     * Renders only the text without any BBCode tags
-     * 
+     * Renders only the text without any BBCode tags.
+     *
      * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
      * @return string
      */
-    public function renderRaw($text = null)
+    public function renderPlain($text = null)
     {
         if ($this->text !== null and $text === null) {
             $text = $this->text;
         }
 
         return preg_replace("/\[(.*?)\]/is", '', $text);
+    }
+
+    /**
+     * Renders only the text without any BBCode tags.
+     * Alias for renderRaw().
+     * 
+     * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
+     * @return string
+     */
+    public function renderRaw($text = null)
+    {
+        return $this->renderPlain($text);
     }
 
     /**
