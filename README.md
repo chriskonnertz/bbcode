@@ -55,8 +55,8 @@ echo $rendered;
 * List:
   *  `[list]`: List - `[list]...list items...[/list]`
   * `[*]`: List item within a list - `[*]Hello world!\r\n[*]Hello moon!`
-  * `[li]`: List item within a list (alias) - `[li]Hello world!\r\n[li]Hello moon!`
-  * Full example: `[list][*]Hello world!\r\n[*]Hello moon![/list]` 
+  * `[li]`: List item within a list (alias) - `[li]Hello world!\r\n[/li][li]Hello moon!/[li]`
+  * Full example: `[list][*]Hello world!\r\n[li]Hello moon![/li][/list]` 
 
 You can add custom tags with the `addTag($name, Closure $closure)` method.
 
