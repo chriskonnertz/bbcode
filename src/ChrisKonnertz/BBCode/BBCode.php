@@ -142,6 +142,7 @@ class BBCode
         $inTag  = false;            // True if current position is inside a tag
         $inName = false;            // True if current pos is inside a tag name
         $inStr  = false;            // True if current pos is inside a string
+        /** @var Tag|null $tag */
         $tag    = null;
         $tags   = array();
 
@@ -162,8 +163,8 @@ class BBCode
 
             if (! $escape or ($char != '<' and $char != '>')) {
                 /*
-                 * $inTag == true means the current position is inside a tag
-                 * (= inside the brackets)
+                 * $inTag == true means the current position is inside a tag definition
+                 * (= inside the brackets of a tag)
                  */
                 if ($inTag) {
                     if ($char == '"') {
@@ -186,6 +187,7 @@ class BBCode
 
                             if ($tag->valid) {
                                 $code = null;
+                                
                                 if ($tag->opening) {
                                     $code = $this->generateTag($tag, $html);
                                 } else {
@@ -198,6 +200,7 @@ class BBCode
                                 if ($code !== null and $tag->opening) {
                                     $tags[$tag->name][] = $tag;
                                 }
+                                
                                 $html .= $code;
                             }
                             continue;
@@ -254,6 +257,7 @@ class BBCode
          */
         foreach ($tags as $name => $tagsCollection) {
             $closingTag = new Tag($name, false);
+            
             foreach ($tagsCollection as $tag) {
                 $html .= $this->generateTag($closingTag, $html, $tag);
             }
@@ -359,6 +363,7 @@ class BBCode
 
                     if ($tag->property) {
                         $listType = '<ol>';
+                        
                         if ($tag->property == 'a') {
                             $listType = '<ol style="list-style-type: lower-alpha">';
                         }
@@ -386,6 +391,7 @@ class BBCode
             case self::TAG_NAME_LI_STAR:
                 if ($tag->opening) {
                     $tag->opening = false;
+                    
                     if ($this->endsWith($html, '<ul>')) {
                         $code = '<li>';
                     } else {
