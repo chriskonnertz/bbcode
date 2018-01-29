@@ -70,7 +70,7 @@ You can add custom tags with the `addTag($name, Closure $closure)` method.
 
 The `BBCode` class also implements the `__toString()` method, which internally calls the `render()` method.
 
-## Custom tag exmaple
+## Custom tag example
 
 This code will add a `[h1]` BBCode tag that creates a `<h1>` HTML tag:
 
