@@ -41,6 +41,11 @@ class BBCode
     const TAG_NAME_SPOILER   = 'spoiler';
 
     /**
+     * The current version number
+     */
+    const VERSION = '1.1.0';
+
+    /**
      * The text with BBCodes
      *
      * @var string|null
