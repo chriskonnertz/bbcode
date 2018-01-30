@@ -140,6 +140,14 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('<strong>We ❤❤❤❤❤❤❤❤❤❤❤ BBCode</strong>', $html);
     }
 
+    public function testAutoClosing()
+    {
+        $bbCode = 'We [b]love BBCode!';
+
+        $html = $this->render($bbCode);
+        $this->assertEquals('We <strong>love BBCode!</strong>', $html);
+    }
+
     public function testSetText()
     {
         $bbCode = $this->getInstance();
