@@ -120,6 +120,8 @@ class BBCode
      * Renders only the text without any BBCode tags.
      * Alias for renderRaw().
      *
+     * @deprecated Deprecated since 1.1.0
+     *
      * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
      * @return string
      */
