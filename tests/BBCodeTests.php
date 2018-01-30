@@ -67,7 +67,7 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
     public function testUrlTag()
     {
         $html = $this->render('[url=http://example.com]Example.com[/url]');
-        $this->assertEquals('<a href="http://example.com">Example.com</a>', $htm);
+        $this->assertEquals('<a href="http://example.com">Example.com</a>', $html);
     }
 
     public function testImgTag()
@@ -226,7 +226,9 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
     {
         $bbCode = $this->getInstance();
 
-        $this->assertEquals(20, $bbCode->getDefaultTagNames());
+        $size = sizeof($bbCode->getDefaultTagNames());
+        
+        $this->assertEquals(20, $size);
     }
 
 }
