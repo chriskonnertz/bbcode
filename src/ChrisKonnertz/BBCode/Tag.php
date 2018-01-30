@@ -54,6 +54,13 @@ class Tag
      */
     public function __construct($name = null, $opening = true)
     {
+        if ($name !== null and ! is_string($name)) {
+            throw new \InvalidArgumentException('The "name" parameter has to be of type string');
+        }
+        if (! is_bool($opening)) {
+            throw new \InvalidArgumentException('The "opening" parameter has to be of type bool');
+        }
+
         $this->name     = $name;
         $this->opening  = $opening;
     }

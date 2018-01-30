@@ -80,14 +80,14 @@ class BBCode
      *
      * @param string|null $text The text - might include BBCode tags
      */
-    public function __construct($text = null) 
+    public function __construct($text = null)
     {
         $this->setText($text);
     }
 
     /**
      * Set the raw text - might include BBCode tags
-     * 
+     *
      * @param string $text The text
      * @retun void
      */
@@ -97,12 +97,12 @@ class BBCode
     }
 
     /**
-     * Renders only the text without any BBCode tags
-     * 
+     * Renders only the text without any BBCode tags.
+     *
      * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
      * @return string
      */
-    public function renderRaw($text = null)
+    public function renderPlain($text = null)
     {
         if ($this->text !== null and $text === null) {
             $text = $this->text;
@@ -112,26 +112,39 @@ class BBCode
     }
 
     /**
+     * Renders only the text without any BBCode tags.
+     * Alias for renderRaw().
+     *
+     * @param  string $text Optional: Render the passed BBCode string instead of the internally stored one
+     * @return string
+     */
+    public function renderRaw($text = null)
+    {
+        return $this->renderPlain($text);
+    }
+
+    /**
      * Renders BBCode to HTML
-     * 
+     *
      * @param  string  $text      Optional: Render the passed BBCode string instead of the internally stored one
      * @param  bool    $escape    Escape HTML entities? (Only "<" and ">"!)
      * @param  bool    $keepLines Keep line breaks by replacing them with <br>?
      * @return string
      */
-    public function render($text = null, $escape = true, $keepLines = true) 
+    public function render($text = null, $escape = true, $keepLines = true)
     {
         if ($this->text !== null and $text === null) {
             $text = $this->text;
         }
-        
-        $html   = '';
-        $len    = mb_strlen($text);
-        $inTag  = false;            // True if current position is inside a tag
-        $inName = false;            // True if current pos is inside a tag name
-        $inStr  = false;            // True if current pos is inside a string
-        $tag    = null;
-        $tags   = array();
+
+        $html     = '';
+        $len      = mb_strlen($text);
+        $inTag    = false;            // True if current position is inside a tag
+        $inName   = false;            // True if current pos is inside a tag name
+        $inStr    = false;            // True if current pos is inside a string
+        /** @var Tag|null $tag */
+        $tag      = null;
+        $openTags = array();
 
         /*
          * Loop over each character of the text
@@ -150,8 +163,8 @@ class BBCode
 
             if (! $escape or ($char != '<' and $char != '>')) {
                 /*
-                 * $inTag == true means the current position is inside a tag
-                 * (= inside the brackets)
+                 * $inTag == true means the current position is inside a tag definition
+                 * (= inside the brackets of a tag)
                  */
                 if ($inTag) {
                     if ($char == '"') {
@@ -174,18 +187,20 @@ class BBCode
 
                             if ($tag->valid) {
                                 $code = null;
+
                                 if ($tag->opening) {
-                                    $code = $this->generateTag($tag, $html);
+                                    $code = $this->generateTag($tag, $html, null, $openTags);
                                 } else {
-                                    $openingTag = $this->popTag($tags, $tag);
+                                    $openingTag = $this->popTag($openTags, $tag);
                                     if ($openingTag) {
-                                        $code = $this->generateTag($tag, $html, $openingTag);
+                                        $code = $this->generateTag($tag, $html, $openingTag, $openTags);
                                     }
                                 }
 
                                 if ($code !== null and $tag->opening) {
-                                    $tags[$tag->name][] = $tag;
+                                    $openTags[$tag->name][] = $tag;
                                 }
+
                                 $html .= $code;
                             }
                             continue;
@@ -218,7 +233,7 @@ class BBCode
                         } else { // If we are not inside the name we are inside a property
                             $tag->property .= $char;
                         }
-                    } 
+                    }
                 } else {
                     /*
                      * This opens a tag
@@ -240,10 +255,11 @@ class BBCode
         /*
          * Check for tags that are not closed and close them.
          */
-        foreach ($tags as $name => $tagsCollection) {
+        foreach ($openTags as $name => $openTagsByType) {
             $closingTag = new Tag($name, false);
-            foreach ($tagsCollection as $tag) {
-                $html .= $this->generateTag($closingTag, $html, $tag);
+
+            foreach ($openTagsByType as $openTag) {
+                $html .= $this->generateTag($closingTag, $html, $openTag);
             }
         }
 
@@ -258,7 +274,7 @@ class BBCode
      * @param  Tag|null $openingTag The opening tag that is linked to the tag (or null)
      * @return string
      */
-    protected function generateTag(Tag $tag, &$html, Tag $openingTag = null)
+    protected function generateTag(Tag $tag, &$html, Tag $openingTag = null, array $openTags = [])
     {
         $code = null;
 
@@ -347,6 +363,7 @@ class BBCode
 
                     if ($tag->property) {
                         $listType = '<ol>';
+
                         if ($tag->property == 'a') {
                             $listType = '<ol style="list-style-type: lower-alpha">';
                         }
@@ -373,17 +390,28 @@ class BBCode
                 break;
             case self::TAG_NAME_LI_STAR:
                 if ($tag->opening) {
-                    $tag->opening = false;
-                    if ($this->endsWith($html, '<ul>')) {
-                        $code = '<li>';
-                    } else {
-                        $code = '</li><li>';
+                    /*
+                     * We require that the list item is inside a list
+                     */
+                    if (isset($openTags['list']) and sizeof($openTags['list']) > 0) {
+                        $tag->opening = false;
+
+                        if ($this->endsWith($html, '<ul>')) {
+                            $code = '<li>';
+                        } else {
+                            $code = '</li><li>';
+                        }
                     }
                 }
                 break;
             case self::TAG_NAME_LI:
                 if ($tag->opening) {
-                    $code = '<li>';
+                    /*
+                     * We require that the list item is inside a list
+                     */
+                    if (isset($openTags['list']) and sizeof($openTags['list']) > 0) {
+                        $code = '<li>';
+                    }
                 } else {
                     $code = '</li>';
                 }
@@ -465,7 +493,7 @@ class BBCode
             default:
                 // Custom tags:
                 foreach ($this->customTagClosures as $name => $closure) {
-                    if ($tag->name == $name) {
+                    if ($tag->name === $name) {
                         $code .= $closure($tag, $html, $openingTag);
                     }
                 }
@@ -486,7 +514,7 @@ class BBCode
 
     /**
      * Returns the last tag of a given type and removes it from the array.
-     * 
+     *
      * @param  Tag[]    $tags Array of tags
      * @param  Tag      $tag  Return the last tag of the type of this tag
      * @return Tag|null
@@ -518,7 +546,7 @@ class BBCode
      *         return '</span>';
      *     }
      * });
-     * 
+     *
      * @param string  $name    The name of the tag
      * @param Closure $closure The Closure that renders the tag
      * @return void
@@ -530,7 +558,7 @@ class BBCode
 
     /**
      * Remove the custom tag with the given name
-     * 
+     *
      * @param  string $name
      * @return void
      */
@@ -541,7 +569,7 @@ class BBCode
 
     /**
      * Add a tag to the array of ignored tags
-     * 
+     *
      * @param  string $name The name of the tag
      * @return void
      */
@@ -554,7 +582,7 @@ class BBCode
 
     /**
      * Remove a tag from the array of ignored tags
-     * 
+     *
      * @param  string $name The name of the tag
      * @return void
      */
@@ -652,7 +680,7 @@ class BBCode
 
     /**
      * Returns true if $haystack ends with $needle
-     * 
+     *
      * @param  string $haystack
      * @param  string $needle
      * @return bool
