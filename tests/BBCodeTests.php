@@ -49,7 +49,7 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
     public function testUTag()
     {
         $html = $this->render('[u]underlined[/u]');
-        $this->assertEquals('<span style="text-decoration: underline">underlined</span>', $html, );
+        $this->assertEquals('<span style="text-decoration: underline">underlined</span>', $html);
     }
 
     public function testCodeTag()
