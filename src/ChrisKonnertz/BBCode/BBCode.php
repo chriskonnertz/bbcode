@@ -483,7 +483,7 @@ class BBCode
             default:
                 // Custom tags:
                 foreach ($this->customTagClosures as $name => $closure) {
-                    if ($tag->name == $name) {
+                    if ($tag->name === $name) {
                         $code .= $closure($tag, $html, $openingTag);
                     }
                 }
