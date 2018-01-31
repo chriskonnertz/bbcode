@@ -43,7 +43,7 @@ class BBCode
     /**
      * The current version number
      */
-    const VERSION = '1.1.0';
+    const VERSION = '1.1.1';
 
     /**
      * The text with BBCodes
@@ -371,7 +371,9 @@ class BBCode
                     if ($tag->property) {
                         $listType = '<ol>';
 
-                        if ($tag->property == 'a') {
+                        if ($tag->property == 'i') {
+                            $listType = '<ol style="list-style-type: lower-roman">';
+                        } elseif ($tag->property == 'a') {
                             $listType = '<ol style="list-style-type: lower-alpha">';
                         }
                     }
@@ -381,6 +383,8 @@ class BBCode
                     if ($this->endsWith($html, '<ul>')) {
                         $code = '</ul>';
                     } elseif ($this->endsWith($html, '<ol>')) {
+                        $code = '</ol>';
+                    } elseif ($this->endsWith($html, '<ol style="list-style-type: lower-roman">')) {
                         $code = '</ol>';
                     } elseif ($this->endsWith($html, '<ol style="list-style-type: lower-alpha">')) {
                         $code = '</ol>';
