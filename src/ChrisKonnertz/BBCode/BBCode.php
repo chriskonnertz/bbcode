@@ -279,6 +279,7 @@ class BBCode
      * @param  Tag      $tag        The current tag
      * @param  string   $html       The current HTML code passed by reference - might be altered!
      * @param  Tag|null $openingTag The opening tag that is linked to the tag (or null)
+     * @param  Tag[]    $openTags   Array with tags that are opned but not closed
      * @return string
      */
     protected function generateTag(Tag $tag, &$html, Tag $openingTag = null, array $openTags = [])
