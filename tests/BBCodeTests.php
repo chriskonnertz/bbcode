@@ -23,9 +23,9 @@ class BBCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function render($text)
     {
-        $bbcode = $this->getInstance();
+        $bbCode = $this->getInstance();
 
-        return $bbcode->render($text);
+        return $bbCode->render($text);
     }
 
     public function testBTag()

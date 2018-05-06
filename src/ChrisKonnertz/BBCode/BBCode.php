@@ -2,9 +2,13 @@
 
 namespace ChrisKonnertz\BBCode;
 
+use ChrisKonnertz\BBCode\Tags\BoldTag;
+use ChrisKonnertz\BBCode\Tags\NoParseTag;
+use ChrisKonnertz\BBCode\Tokenizer\Token;
+use ChrisKonnertz\BBCode\Tokenizer\Tokenizer;
 use Closure;
 
-/*
+/**
  * BBCode to HTML converter
  *
  * Inspired by Kai Mallea (kmallea@gmail.com)
@@ -40,10 +44,15 @@ class BBCode
     const TAG_NAME_RIGHT     = 'right';
     const TAG_NAME_SPOILER   = 'spoiler';
 
+    const TAG_TYPES = [
+        BoldTag::class,
+        NoParseTag::class,
+    ];
+
     /**
      * The current version number
      */
-    const VERSION = '1.1.1';
+    const VERSION = '2.0-dev';
 
     /**
      * The text with BBCodes
@@ -67,7 +76,7 @@ class BBCode
     protected $ignoredTags = array();
 
     /**
-     * Widht (in pixels) of the YouTube iframe element
+     * Width (in pixels) of the YouTube iframe element
      *
      * @var int
      */
@@ -94,11 +103,19 @@ class BBCode
      * Set the raw text - might include BBCode tags
      *
      * @param string $text The text
-     * @retun void
+     * @return void
      */
     public function setText($text)
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**
@@ -143,6 +160,45 @@ class BBCode
         if ($this->text !== null and $text === null) {
             $text = $this->text;
         }
+
+        $tokenizer = new Tokenizer($this->tagTypes);
+        $tokens = $tokenizer->tokenize($text, $escape, $keepLines);
+
+        $html = '';
+        $level = 0;
+        foreach ($tokens as $index => $token) {
+            switch ($token->getType()) {
+                case Token::TYPE_LINEBREAK:
+                    $html .= '<br/>';
+                    break;
+                case Token::TYPE_PLAIN_TEXT:
+                    $html .= $token->getValue();
+                    break;
+                case Token::TYPE_TAG_OPENING:
+                case Token::TYPE_TAG_CLOSING:
+                    $tagOpening = $token->getType() === Token::TYPE_TAG_OPENING;
+                    $tagName = $token->getValue();
+
+                    // If the tag is not known, just do not render it. We do not want to throw any exceptions.
+                    if (isset($this->tagTypes[$tagName])) {
+                        $tagType = $this->tagTypes[$tagName];
+
+                        /** @var AbstractTagType $tag */
+                        $tag = new $tagType;
+                        $tag->render($html, $tagOpening);
+                    }
+
+
+                    if ($tagOpening) {
+                        $level++;
+                    } else {
+                        $level--;
+                    }
+            }
+        }
+
+        return $html;
+
 
         $html     = '';
         $len      = mb_strlen($text);
@@ -279,7 +335,7 @@ class BBCode
      * @param  Tag      $tag        The current tag
      * @param  string   $html       The current HTML code passed by reference - might be altered!
      * @param  Tag|null $openingTag The opening tag that is linked to the tag (or null)
-     * @param  Tag[]    $openTags   Array with tags that are opned but not closed
+     * @param  Tag[]    $openTags   Array with tags that are opened but not closed
      * @return string
      */
     protected function generateTag(Tag $tag, &$html, Tag $openingTag = null, array $openTags = [])
@@ -551,7 +607,7 @@ class BBCode
      *
      * Example:
      *
-     * $bbcode->addTag('example', function($tag, &$html, $openingTag) {
+     * $bbCode->addTag('example', function($tag, &$html, $openingTag) {
      *     if ($tag->opening) {
      *         return '<span class="example">';
      *     } else {

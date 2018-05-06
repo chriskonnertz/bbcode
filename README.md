@@ -19,16 +19,16 @@ From then on you may run `composer update` to get the latest version of this lib
 It is possible to use this library without using Composer but then it is necessary to register an 
 [autoloader function](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md#example-implementation).
 
-> This library requires PHP 5.5 or higher.
+> This library requires PHP 5.6 or higher.
 
 ## Usage example
 
 Here is a minimalistic example of PHP code that uses this library. It assumes that there is an autoloader.
 
 ```php
-$bbcode = new ChrisKonnertz\BBCode\BBCode();
+$bbCode = new ChrisKonnertz\BBCode\BBCode();
 
-$rendered = $bbcode->render('[b]Hello world![/b]');
+$rendered = $bbCode->render('[b]Hello world![/b]');
 
 echo $rendered;
 ```
@@ -75,7 +75,7 @@ The `BBCode` class also implements the `__toString()` method, which internally c
 This code will add a `[h1]` BBCode tag that creates a `<h1>` HTML tag:
 
 ```php
-$bbcode->addTag('h1', function($tag, &$html, $openingTag) {
+$bbCode->addTag('h1', function($tag, &$html, $openingTag) {
     if ($tag->opening) {
         return '<h1>';
     } else {
