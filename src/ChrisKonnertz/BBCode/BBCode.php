@@ -43,7 +43,7 @@ class BBCode
     /**
      * The current version number
      */
-    const VERSION = '1.1.1';
+    const VERSION = '1.1.2';
 
     /**
      * The text with BBCodes
@@ -442,7 +442,7 @@ class BBCode
             case self::TAG_NAME_YOUTUBE:
                 if ($tag->opening) {
                     $code = '<iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
-                        height="' . $this->youTubeHeight . '" src="http://www.youtube.com/embed/';
+                        height="' . $this->youTubeHeight . '" src="https://www.youtube.com/embed/';
                 } else {
                     $code = '" frameborder="0"></iframe>';
                 }
