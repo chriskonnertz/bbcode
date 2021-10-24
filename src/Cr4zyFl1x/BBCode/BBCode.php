@@ -21,6 +21,7 @@ class BBCode
      */
     const TAG_NAME_B         = 'b';
     const TAG_NAME_BR        = 'br';
+    const TAG_NAME_HR        = 'hr';
     const TAG_NAME_I         = 'i';
     const TAG_NAME_S         = 's';
     const TAG_NAME_U         = 'u';
@@ -44,7 +45,7 @@ class BBCode
     /**
      * The current version number
      */
-    const VERSION = '1.1.2';
+    const VERSION = '1.1.3';
 
     /**
      * The text with BBCodes
@@ -302,6 +303,11 @@ class BBCode
             case self::TAG_NAME_BR:
                 if ($tag->opening) {
                     $code = '<br />';
+                }
+                break;
+            case self::TAG_NAME_HR:
+                if ($tag->opening) {
+                    $code = '<hr />';
                 }
                 break;
             case self::TAG_NAME_I:
