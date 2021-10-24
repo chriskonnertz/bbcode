@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-0": {
-            "ChrisKonnertz\\BBCode": "src/"
+            "Cr4zyFl1x\\BBCode": "src/"
         }
     },
     "minimum-stability": "dev"

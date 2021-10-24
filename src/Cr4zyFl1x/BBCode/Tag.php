@@ -1,12 +1,12 @@
 <?php
 
-namespace ChrisKonnertz\BBCode;
+namespace Cr4zyFl1x\BBCode;
 
 /**
  * This class represents a single BBCode tag.
  * It is just a simple class used for storing tag.
  *
- * @package ChrisKonnertz\BBCode
+ * @package Cr4zyFl1x\BBCode
  */
 class Tag
 {

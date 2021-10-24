@@ -1,6 +1,6 @@
 <?php
 
-namespace ChrisKonnertz\BBCode;
+namespace Cr4zyFl1x\BBCode;
 
 use Closure;
 
