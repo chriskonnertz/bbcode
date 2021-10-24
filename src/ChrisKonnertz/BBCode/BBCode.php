@@ -20,6 +20,7 @@ class BBCode
      * Call getDefaultTagNames() to get them as an array.
      */
     const TAG_NAME_B         = 'b';
+    const TAG_NAME_BR        = 'br';
     const TAG_NAME_I         = 'i';
     const TAG_NAME_S         = 's';
     const TAG_NAME_U         = 'u';
@@ -296,6 +297,11 @@ class BBCode
                     $code = '<strong>';
                 } else {
                     $code = '</strong>';
+                }
+                break;
+            case self::TAG_NAME_BR:
+                if ($tag->opening) {
+                    $code = '<br />';
                 }
                 break;
             case self::TAG_NAME_I:
