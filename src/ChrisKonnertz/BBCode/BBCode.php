@@ -290,6 +290,12 @@ class BBCode
             return $code;
         }
 
+        if ($tag->name && isset($this->customTagClosures[$tag->name])) {
+            $closure = $this->customTagClosures[$tag->name];
+
+            return $closure($tag, $html, $openingTag);
+        }
+
         switch ($tag->name) {
             case self::TAG_NAME_B:
                 if ($tag->opening) {
@@ -502,13 +508,6 @@ class BBCode
                     $code = '</div>';
                 }
                 break;
-            default:
-                // Custom tags:
-                foreach ($this->customTagClosures as $name => $closure) {
-                    if ($tag->name === $name) {
-                        $code .= $closure($tag, $html, $openingTag);
-                    }
-                }
         }
 
         return $code;
