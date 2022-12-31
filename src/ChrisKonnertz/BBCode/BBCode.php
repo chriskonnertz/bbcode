@@ -408,7 +408,7 @@ class BBCode
                     if (isset($openTags['list']) and sizeof($openTags['list']) > 0) {
                         $tag->opening = false;
 
-                        if ($this->endsWith($html, '<ul>')) {
+                        if ($this->endsWith($html, '<ul>') || $this->endsWith($html, '<ol>')) {
                             $code = '<li>';
                         } else {
                             $code = '</li><li>';
