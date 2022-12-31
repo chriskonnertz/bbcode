@@ -1,5 +1,5 @@
 {
-    "name": "chriskonnertz/bbcode",
+    "name": "wrashadow/bbcode",
     "description": "A naive attempt at a BBCode 'parser' written in PHP. It uses regex and thus fails at complex, nested tags.",
     "keywords": ["bbcode"],
     "license": "MIT",

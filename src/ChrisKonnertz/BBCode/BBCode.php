@@ -441,10 +441,10 @@ class BBCode
                 break;
             case self::TAG_NAME_YOUTUBE:
                 if ($tag->opening) {
-                    $code = '<iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
+                    $code = '<div class="youtube-player-container"><iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
                         height="' . $this->youTubeHeight . '" src="https://www.youtube.com/embed/';
                 } else {
-                    $code = '" frameborder="0"></iframe>';
+                    $code = '" frameborder="0"></iframe></div>';
                 }
                 break;
             case self::TAG_NAME_FONT:
