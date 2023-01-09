@@ -43,7 +43,7 @@ class BBCode
     /**
      * The current version number
      */
-    const VERSION = '1.1.2';
+    const VERSION = '1.1.3';
 
     /**
      * The text with BBCodes
@@ -286,6 +286,10 @@ class BBCode
     {
         $code = null;
 
+        // secure various unwanted states
+        $propHasSemicol = str_contains($tag->property, ';');
+        $propHasQuote = str_contains($tag->property, '"');
+
         if (in_array($tag->name, $this->ignoredTags)) {
             return $code;
         }
@@ -328,7 +332,7 @@ class BBCode
                 break;
             case self::TAG_NAME_EMAIL:
                 if ($tag->opening) {
-                    if ($tag->property) {
+                    if ($tag->property && !$propHasQuote) {
                         $code = '<a href="mailto:'.$tag->property.'">';
                     } else {
                         $code = '<a href="mailto:';
@@ -343,7 +347,7 @@ class BBCode
                 break;
             case self::TAG_NAME_URL:
                 if ($tag->opening) {
-                    if ($tag->property) {
+                    if ($tag->property && !$propHasQuote) {
                         $code = '<a href="'.$tag->property.'">';
                     } else {
                         $code = '<a href="';
@@ -449,7 +453,7 @@ class BBCode
                 break;
             case self::TAG_NAME_FONT:
                 if ($tag->opening) {
-                    if ($tag->property) {
+                    if ($tag->property && !$propHasSemicol && !$propHasQuote) {
                         $code = '<span style="font-family: '.$tag->property.'">';
                     }
                 } else {
@@ -458,7 +462,7 @@ class BBCode
                 break;
             case self::TAG_NAME_SIZE:
                 if ($tag->opening) {
-                    if ($tag->property) {
+                    if ($tag->property && !$propHasSemicol && !$propHasQuote) {
                         $code = '<span style="font-size: '.$tag->property.'%">';
                     }
                 } else {
@@ -467,7 +471,7 @@ class BBCode
                 break;
             case self::TAG_NAME_COLOR:
                 if ($tag->opening) {
-                    if ($tag->property) {
+                    if ($tag->property && !$propHasSemicol && !$propHasQuote) {
                         $code = '<span style="color: '.$tag->property.'">';
                     }
                 } else {
